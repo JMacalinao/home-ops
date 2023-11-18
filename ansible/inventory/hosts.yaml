@@ -1,0 +1,14 @@
+---
+kubernetes:
+  children:
+    master:
+      hosts:
+        kube-home-1:
+          ansible_user: kubernetes
+          ansible_host: 10.8.8.51
+        kube-home-2:
+          ansible_user: kubernetes
+          ansible_host: 10.8.8.52
+        kube-home-3:
+          ansible_user: kubernetes
+          ansible_host: 10.8.8.53
