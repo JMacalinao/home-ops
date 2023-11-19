@@ -1,0 +1,146 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: default
+data:
+  bookmarks.yaml: |-
+    - Developer:
+      - GitHub:
+        - abbr: GH
+          href: https://github.com
+
+    - Social:
+      - Facebook:
+        - abbr: FB
+          href: https://facebook.com
+      - Threads:
+        - abbr: TH
+          href: https://threads.net
+      - Instagram:
+        - abbr: IN
+          href: https://instagram.com
+      - Twitter:
+        - abbr: TW
+          href: https://twitter.com
+
+    - Entertainment:
+      - YouTube:
+        - abbr: YT
+          href: https://youtube.com
+      - Reddit:
+        - abbr: RE
+          href: https://reddit.com
+  services.yaml: |-
+    - System Admin:
+      - Proxmox:
+          href: https://proxmox.${SECRET_DOMAIN}
+          description: Virtual Environment
+          icon: /icons/proxmox.png
+      - TrueNAS:
+          href: http://nas.${SECRET_DOMAIN}
+          description: Network-attached Storage
+          icon: /icons/truecommand.png
+      - TrueNAS Backup:
+          href: http://nas-backup.${SECRET_DOMAIN}
+          description: Network-attached Storage
+          icon: /icons/truecommand.png
+      - Grafana:
+          href: http://monitor.${SECRET_DOMAIN}
+          description: Monitoring Dashboards
+          icon: /icons/grafana.png
+
+    - Network Admin:
+      - Router:
+      - Pi-hole:
+          href: https://pihole.${SECRET_DOMAIN}
+          description: DNS Tracker/Ad Blocker
+          icon: /icons/pihole.png
+      - Omada:
+          href: https://omada.${SECRET_DOMAIN}
+          description: AP Management
+          icon: /icons/tplink.png
+      - Pharos Control:
+          href: https://pharos.${SECRET_DOMAIN}
+          description: CPE Management
+          icon: /icons/tplink.png
+      - FreePBX:
+          href: https://voip.${SECRET_DOMAIN}
+          description: VoIP Server
+          icon: /icons/freepbx.png
+
+    - Apps:
+      - Nextcloud:
+          href: https://cloud.${SECRET_EXTERNAL_DOMAIN}
+          description: Personal Private Cloud
+          icon: /icons/nextcloud.png
+      - Mastodon:
+          href: https://mastodon.${SECRET_EXTERNAL_DOMAIN}
+          description: Microblogging Platform
+          icon: /icons/mastodon.png
+      - Vaultwarden:
+          href: https://vault.${SECRET_EXTERNAL_DOMAIN}
+          description: Secrets Manager
+          icon: /icons/vaultwarden.png
+      - Agent DVR:
+          href: https://cctv.${SECRET_DOMAIN}
+          description: Surveillance Monitoring
+          icon: /icons/ispy.png
+      - Firefly:
+          href: https://firefly.${SECRET_DOMAIN}
+          description: Personal Finance
+          icon: /icons/firefly.png
+      - scanservjs:
+          href: https://scanner.${SECRET_DOMAIN}
+          description: Scanner
+          icon: /icons/scanservjs.png
+
+    - Media Center:
+      - Radarr:
+          href: https://radarr.${SECRET_DOMAIN}
+          description: Movie Media Manager
+          icon: /icons/radarr.png
+      - Sonarr:
+          href: https://sonarr.${SECRET_DOMAIN}
+          description: TV Media Manager
+          icon: /icons/sonarr.png
+      - Prowlarr:
+          href: https://prowlarr.${SECRET_DOMAIN}
+          description: Indexer Aggregator
+          icon: /icons/prowlarr.png
+      - Bazarr:
+          href: https://bazarr.${SECRET_DOMAIN}
+          description: Subtitle Manager
+          icon: /icons/bazarr.png
+      - SABnzbd:
+          href: https://sabnzbd.${SECRET_DOMAIN}
+          description: Usenet Newsreader
+          icon: /icons/sabnzbd.png
+      - qBittorrent:
+          href: https://torrents.${SECRET_DOMAIN}
+          description: BitTorrent Client
+          icon: /icons/qbittorrent.png
+  settings.yaml: |-
+    target: _self
+    theme: dark
+    color: neutral
+  widgets.yaml: |-
+    - resources:
+        cpu: true
+        memory: true
+        disk: /
+
+    - search:
+        provider: google
+        target: _self
+
+    - openweathermap:
+        latitude: {{HOMEPAGE_VAR_LATITUDE}}
+        longitude: {{HOMEPAGE_VAR_LONGITUDE}}
+        units: metric
+        apiKey: {{HOMEPAGE_VAR_OPENWEATHERMAP_KEY}}
+        cache: 5
+  docker.yaml: ""
+  kubernetes.yaml: |
+    mode: cluster
