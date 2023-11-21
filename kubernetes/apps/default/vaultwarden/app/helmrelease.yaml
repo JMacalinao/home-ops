@@ -56,6 +56,8 @@ spec:
               accessMode: ReadWriteOnce
               size: 1Gi
               storageClass: ceph-rbd
+              globalMounts:
+                - path: /data
     service:
       main:
         ports:
