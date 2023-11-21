@@ -51,5 +51,6 @@ spec:
     service:
       main:
         ports:
-          sql:
+          http:
+            protocol: TCP
             port: &port 3306
