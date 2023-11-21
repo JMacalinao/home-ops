@@ -29,7 +29,7 @@ spec:
     kind: GitRepository
     name: home-kubernetes
   dependsOn:
-    - name: ccluster-apps-jmac-ph-mysql
+    - name: cluster-apps-jmac-ph-mysql
   wait: false
   interval: 30m
   retryInterval: 1m
