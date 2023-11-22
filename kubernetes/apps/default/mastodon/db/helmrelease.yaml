@@ -38,9 +38,17 @@ spec:
             image:
               repository: postgres
               tag: 15
-            envFrom:
-              - secretRef:
-                  name: mastodon-db-secret
+            env:
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    key: DB_USER
+                    name: mastodon-db-secret
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: DB_PASS
+                    name: mastodon-db-secret
     service:
       main:
         ports:

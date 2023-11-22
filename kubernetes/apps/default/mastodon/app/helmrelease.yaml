@@ -38,17 +38,6 @@ spec:
               repository: tootsuite/mastodon
               tag: v4.2.0
             command: ['bash', '-c', 'rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000']
-            env:
-              - name: DB_USER
-                valueFrom:
-                  secretKeyRef:
-                    key: POSTGRES_USER
-                    name: mastodon-db-secret
-              - name: DB_PASS
-                valueFrom:
-                  secretKeyRef:
-                    key: POSTGRES_PASSWORD
-                    name: mastodon-db-secret
             envFrom:
               - configMapRef:
                   name: mastodon
