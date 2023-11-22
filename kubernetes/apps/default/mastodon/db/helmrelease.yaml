@@ -55,3 +55,4 @@ spec:
         size: 2Gi
         globalMounts:
           - path: /var/lib/postgresql/data
+            subPath: postgres
