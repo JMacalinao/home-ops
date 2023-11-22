@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-assistant
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+spec:
+  ingressClassName: external
+  rules:
+  - host: home.${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: home-assistant
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - home.${SECRET_DOMAIN}
