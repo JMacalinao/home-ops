@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mastodon
+  namespace: default
+data:
+  LOCAL_DOMAIN: ${SECRET_DOMAIN}
+  WEB_DOMAIN: mastodon.${SECRET_DOMAIN}
+  REDIS_HOST: mastodon-redis
+  REDIS_PORT: "6379"
+  DB_HOST: mastodon-db
+  DB_PORT: "5432"
+  SMTP_PORT: "25"
+  SMTP_FROM_ADDRESS: info@${SECRET_DOMAIN}
+  IP_RETENTION_PERIOD: "31556952"
+  SESSION_RETENTION_PERIOD: "31556952"
+  ALLOWED_PRIVATE_ADDRESSES: 192.168.88.0/24,10.42.0.0/15,127.0.0.1

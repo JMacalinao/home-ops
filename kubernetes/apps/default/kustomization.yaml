@@ -5,4 +5,5 @@ resources:
   - ./namespace.yaml
   - ./homepage/ks.yaml
   - ./jmac-ph/ks.yaml
+  - ./mastodon/ks.yaml
   - ./vaultwarden/ks.yaml
