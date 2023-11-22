@@ -1,0 +1,76 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloud
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    nginx.ingress.kubernetes.io/proxy-body-size: 10g
+spec:
+  ingressClassName: external
+  rules:
+  - host: cloud.${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: cloud
+            port:
+              number: 8080
+        pathType: ImplementationSpecific
+  - host: cloud-globe.${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: cloud
+            port:
+              number: 8080
+        pathType: ImplementationSpecific
+  - host: cloud-pldt.${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: cloud
+            port:
+              number: 8080
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - cloud.${SECRET_DOMAIN}
+    - cloud-globe.${SECRET_DOMAIN}
+    - cloud-pldt.${SECRET_DOMAIN}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloud-dav
+  namespace: default
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    nginx.ingress.kubernetes.io/rewrite-target: https://$host/remote.php/dav
+spec:
+  ingressClassName: external
+  rules:
+  - host: cloud.${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: cloud
+            port:
+              number: 8080
+        path: /.well-known/caldav
+        pathType: Prefix
+      - backend:
+          service:
+            port:
+              number: 8080
+            name: cloud
+        path: /.well-known/carddav
+        pathType: Prefix
+  tls:
+  - hosts:
+    - cloud.${SECRET_DOMAIN}
