@@ -70,7 +70,7 @@ spec:
       data:
         enabled: true
         storageClass: ceph-rbd
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         size: 5Gi
         globalMounts:
           - path: /mastodon/public/system
