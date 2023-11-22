@@ -54,4 +54,4 @@ spec:
       data:
         enabled: true
         storageClass: ceph-rbd
-        existingClaim: mastodon-app-data
+        existingClaim: mastodon-data
