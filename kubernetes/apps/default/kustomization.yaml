@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./cloud/ks.yaml
   - ./homepage/ks.yaml
+  - ./jellyfin/ks.yaml
   - ./jmac-ph/ks.yaml
   - ./mastodon/ks.yaml
   - ./vaultwarden/ks.yaml
