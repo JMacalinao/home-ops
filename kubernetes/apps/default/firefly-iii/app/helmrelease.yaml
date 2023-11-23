@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app firefly-iii
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: firefly-iii/core
+              tag: version-6.0.30
+            env:
+              - name: DB_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    key: MYSQL_DATABASE
+                    name: firefly-iii-db-secret
+              - name: DB_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    key: MYSQL_USER
+                    name: firefly-iii-db-secret
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: MYSQL_PASSWORD
+                    name: firefly-iii-db-secret
+            envFrom:
+              - configMapRef:
+                  name: firefly-iii
+              - secretRef:
+                  name: firefly-iii-secret
+              - secretRef:
+                  name: firefly-iii-db-secret
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: 300
+          nginx.ingress.kubernetes.io/proxy-send-timeout: 300
+          nginx.ingress.kubernetes.io/proxy-read-timeout: 300
+        hosts:
+          - host: &host "firefly.${SECRET_DOMAIN_INTERNAL}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8080

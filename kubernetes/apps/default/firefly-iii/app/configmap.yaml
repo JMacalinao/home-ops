@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: firefly-iii
+  namespace: default
+data:
+  APP_ENV: local
+  DB_CONNECTION: mysql
+  DB_HOST: firefly-iii-db
+  TRUSTED_PROXIES: '**'
