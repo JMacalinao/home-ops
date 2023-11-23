@@ -47,7 +47,7 @@ spec:
                   name: mastodon-db-secret
     service:
       main:
-        enable: false
+        enabled: false
     persistence:
       data:
         enabled: true
