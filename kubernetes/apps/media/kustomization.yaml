@@ -6,4 +6,5 @@ resources:
   - ./bazarr/ks.yaml
   - ./pvc
   - ./radarr/ks.yaml
+  - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
