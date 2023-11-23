@@ -5,4 +5,5 @@ metadata:
   name: cluster-settings-user
   namespace: flux-system
 data:
-  SETTINGS_PLACEHOLDER: "settings-value"
+  CONFIG_APP_UID: "568"
+  CONFIG_APP_GID: "568"
