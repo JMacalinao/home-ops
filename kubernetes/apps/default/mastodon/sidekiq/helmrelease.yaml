@@ -45,6 +45,9 @@ spec:
                   name: mastodon-app-secret
               - secretRef:
                   name: mastodon-db-secret
+    service:
+      main:
+        enable: false
     persistence:
       data:
         enabled: true
