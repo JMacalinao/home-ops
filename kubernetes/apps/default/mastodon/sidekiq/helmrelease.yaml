@@ -53,3 +53,5 @@ spec:
         enabled: true
         storageClass: ceph-rbd
         existingClaim: mastodon-data
+        globalMounts:
+          - path: /mastodon/public/system
