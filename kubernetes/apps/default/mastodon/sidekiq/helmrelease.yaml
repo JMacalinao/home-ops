@@ -45,11 +45,6 @@ spec:
                   name: mastodon-app-secret
               - secretRef:
                   name: mastodon-db-secret
-    service:
-      main:
-        ports:
-          http:
-            port: &port 3000
     persistence:
       data:
         enabled: true
