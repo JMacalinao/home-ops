@@ -52,7 +52,7 @@ spec:
         anotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - host: &host "mastodon.${SECRET_DOMAIN}"
             paths:
               - path: /api/v1/streaming
                 service:
