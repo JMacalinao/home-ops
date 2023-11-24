@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app influxdb
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: influxdb
+      version: 4.12.5
+      sourceRef:
+        kind: HelmRepository
+        name: influxdata
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4096Mi
+      requests:
+        cpu: 250m
+        memory: 512Mi
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: "10.8.8.153"
+      type: LoadBalancer
+      externalTrafficPolicy: Cluster
+    persistence:
+      enabled: true
+      existingClaim: monitoring
