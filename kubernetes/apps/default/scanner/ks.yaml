@@ -6,7 +6,7 @@ metadata:
   name: cluster-apps-scanner
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/media/scanner/app
+  path: ./kubernetes/apps/default/scanner/app
   prune: true
   sourceRef:
     kind: GitRepository
