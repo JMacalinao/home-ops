@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app blackbox-exporter
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: prometheus-blackbox-exporter
+      version: 8.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    pspEnabled: false
+    podSecurityContext:
+      sysctls:
+      - name: net.ipv4.ping_group_range
+        value: "0 65536"
+    config:
+      modules:
+        icmp_ipv4:
+          prober: icmp
+          timeout: 5s
+          icmp:
+            preferred_ip_protocol: "ip4"
+        http_2xx:
+          prober: http
+          timeout: 5s
+          http:
+            method: GET
+            tls_config:
+              insecure_skip_verify: true
+        http_2xx_head:
+          prober: http
+          timeout: 5s
+          http:
+            method: HEAD
+            tls_config:
+              insecure_skip_verify: true
