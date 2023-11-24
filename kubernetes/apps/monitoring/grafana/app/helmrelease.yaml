@@ -1,0 +1,110 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app grafana
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grafana
+      version: 7.0.8
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    replicas: 1
+    admin:
+      existingSecret: "grafana-secret"
+      userKey: admin-user
+      passwordKey: admin-password
+    grafana.ini:
+      paths:
+        data: /var/lib/grafana/
+        logs: /var/log/grafana
+        plugins: /var/lib/grafana/plugins
+        provisioning: /etc/grafana/provisioning
+      analytics:
+        check_for_updates: true
+      log:
+        mode: console
+      grafana_net:
+        url: https://grafana.net
+      panels:
+        disable_sanitize_html: true
+      news:
+        news_feed_enabled: false
+      server:
+        domain: *host
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: 'monitoring'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/monitoring
+    dashboardsConfigMaps:
+      monitoring: monitoring-dashboards
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://monitoring-prometheus-server
+            access: proxy
+            isDefault: true
+          - name: NUT
+            type: influxdb
+            url: http://monitoring-db-influxdb:8086
+            access: proxy
+            database: nutups
+          - name: Proxmox
+            type: influxdb
+            url: http://monitoring-db-influxdb:8086
+            access: proxy
+            database: homelab_proxmox
+          - name: Speedtest
+            type: influxdb
+            url: http://monitoring-db-influxdb:8086
+            access: proxy
+            database: speedtest
+    downloadDashboardsImage:
+      repository: curlimages/curl
+      tag: 7.73.0
+      sha: ""
+      pullPolicy: IfNotPresent
+    plugins:
+      - dalvany-image-panel
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        hosts:
+          - &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      enabled: false
+    testFramework:
+      enabled: false
