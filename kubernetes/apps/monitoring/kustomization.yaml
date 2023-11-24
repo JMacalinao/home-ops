@@ -7,5 +7,6 @@ resources:
   - ./grafana/ks.yaml
   - ./influxdb/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
+  - ./nut-exporter/ks.yaml
   - ./prometheus/ks.yaml
   - ./pvc
