@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./blackbox-exporter/ks.yaml
   - ./grafana/ks.yaml
+  - ./influxdb/ks.yaml
   - ./kubernetes-dashboard/ks.yaml
   - ./prometheus/ks.yaml
   - ./pvc
