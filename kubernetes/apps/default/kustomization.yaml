@@ -10,4 +10,5 @@ resources:
   - ./jellyfin/ks.yaml
   - ./jmac-ph/ks.yaml
   - ./mastodon/ks.yaml
+  - ./scanner/ks.yaml
   - ./vaultwarden/ks.yaml

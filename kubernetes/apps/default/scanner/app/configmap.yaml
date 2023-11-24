@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scanner-config
+  namespace: default
+data:
+  config.local.js: |-
+    module.exports = {
+      afterConfig(config) {
+        config.log.level = 'TRACE';
+      },
+      afterDevices(devices) {
+        devices.filter(d => d.id.includes('fujitsu'))
+          .forEach(device => {
+            device.name = 'Fujitsu (Flatbed)';
+            device.features['--mode'].default = 'Color';
+            device.features['--resolution'].default = 300;
+            device.features['-t'].limits = [0, 356];
+            device.features['-y'].limits = [0, 356];
+          });
+
+        // Create a clone of the flatbed settings
+        const fujitsuAdf = JSON.parse(JSON.stringify(devices.filter(d => d.id.includes('fujitsu'))[0]));
+        fujitsuAdf.id = "net:scanner-adf.hdc:fujitsu:fi-7260:1208958";
+        fujitsuAdf.name = 'Fujitsu (ADF)';
+        fujitsuAdf.features['--page-height'] = {
+          default: 356,
+          limits: [
+            0,
+            356
+          ],
+        };
+
+        // Add the clone as a whole new device
+        devices.unshift(fujitsuAdf);
+      }
+    };
