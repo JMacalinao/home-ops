@@ -48,7 +48,7 @@ spec:
               INTERVAL: "15"
             envFrom:
               - secretRef:
-                  name: nut-explorer-home-office-secret
+                  name: nut-exporter-home-office-secret
     service:
       main:
         enabled: false

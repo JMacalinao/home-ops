@@ -48,7 +48,7 @@ spec:
               INTERVAL: "15"
             envFrom:
               - secretRef:
-                  name: nut-explorer-ups1-secret
+                  name: nut-exporter-ups1-secret
     service:
       main:
         enabled: false
