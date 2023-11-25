@@ -96,14 +96,13 @@ spec:
     plugins:
       - dalvany-image-panel
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
-        hosts:
-          - *host
-        tls:
-          - hosts:
-              - *host
+      enabled: true
+      ingressClassName: internal
+      hosts:
+        - *host
+      tls:
+        - hosts:
+            - *host
     persistence:
       enabled: false
     testFramework:
