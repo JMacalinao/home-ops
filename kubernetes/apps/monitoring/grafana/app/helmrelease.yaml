@@ -49,7 +49,7 @@ spec:
       news:
         news_feed_enabled: false
       server:
-        domain: *host
+        domain: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -100,7 +100,7 @@ spec:
         enabled: true
         ingressClassName: internal
         hosts:
-          - &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+          - *host
         tls:
           - hosts:
               - *host
