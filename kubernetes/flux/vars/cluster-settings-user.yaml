@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 data:
   CONFIG_APP_UID: "568"
-  CONFIG_APP_GID: "568"
+  CONFIG_MEDIA_UID: "568"
