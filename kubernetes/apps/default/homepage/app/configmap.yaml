@@ -35,90 +35,89 @@ data:
   services.yaml: |-
     - System Admin:
       - Proxmox:
-          href: https://proxmox.${SECRET_DOMAIN}
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
           description: Virtual Environment
           icon: /icons/proxmox.png
       - TrueNAS:
-          href: http://nas.${SECRET_DOMAIN}
+          href: http://nas.${SECRET_DOMAIN_INTERNAL}
           description: Network-attached Storage
           icon: /icons/truecommand.png
       - TrueNAS Backup:
-          href: http://nas-backup.${SECRET_DOMAIN}
+          href: http://nas-backup.${SECRET_DOMAIN_INTERNAL}
           description: Network-attached Storage
           icon: /icons/truecommand.png
       - Grafana:
-          href: http://monitor.${SECRET_DOMAIN}
+          href: http://monitor.${SECRET_DOMAIN_INTERNAL}
           description: Monitoring Dashboards
           icon: /icons/grafana.png
 
     - Network Admin:
-      - Router:
       - Pi-hole:
-          href: https://pihole.${SECRET_DOMAIN}
+          href: https://pihole.${SECRET_DOMAIN_INTERNAL}
           description: DNS Tracker/Ad Blocker
           icon: /icons/pihole.png
       - Omada:
-          href: https://omada.${SECRET_DOMAIN}
+          href: https://omada.${SECRET_DOMAIN_INTERNAL}
           description: AP Management
           icon: /icons/tplink.png
       - Pharos Control:
-          href: https://pharos.${SECRET_DOMAIN}
+          href: https://pharos.${SECRET_DOMAIN_INTERNAL}
           description: CPE Management
           icon: /icons/tplink.png
       - FreePBX:
-          href: https://voip.${SECRET_DOMAIN}
+          href: https://voip.${SECRET_DOMAIN_INTERNAL}
           description: VoIP Server
           icon: /icons/freepbx.png
 
     - Apps:
       - Nextcloud:
-          href: https://cloud.${SECRET_EXTERNAL_DOMAIN}
+          href: https://cloud.${SECRET_DOMAIN}
           description: Personal Private Cloud
           icon: /icons/nextcloud.png
       - Mastodon:
-          href: https://mastodon.${SECRET_EXTERNAL_DOMAIN}
+          href: https://mastodon.${SECRET_DOMAIN}
           description: Microblogging Platform
           icon: /icons/mastodon.png
       - Vaultwarden:
-          href: https://vault.${SECRET_EXTERNAL_DOMAIN}
+          href: https://vault.${SECRET_DOMAIN}
           description: Secrets Manager
           icon: /icons/vaultwarden.png
       - Agent DVR:
-          href: https://cctv.${SECRET_DOMAIN}
+          href: https://cctv.${SECRET_DOMAIN_INTERNAL}
           description: Surveillance Monitoring
           icon: /icons/ispy.png
       - Firefly:
-          href: https://firefly.${SECRET_DOMAIN}
+          href: https://firefly.${SECRET_DOMAIN_INTERNAL}
           description: Personal Finance
           icon: /icons/firefly.png
       - scanservjs:
-          href: https://scanner.${SECRET_DOMAIN}
+          href: https://scanner.${SECRET_DOMAIN_INTERNAL}
           description: Scanner
           icon: /icons/scanservjs.png
 
     - Media Center:
       - Radarr:
-          href: https://radarr.${SECRET_DOMAIN}
+          href: https://radarr.${SECRET_DOMAIN_INTERNAL}
           description: Movie Media Manager
           icon: /icons/radarr.png
       - Sonarr:
-          href: https://sonarr.${SECRET_DOMAIN}
+          href: https://sonarr.${SECRET_DOMAIN_INTERNAL}
           description: TV Media Manager
           icon: /icons/sonarr.png
       - Prowlarr:
-          href: https://prowlarr.${SECRET_DOMAIN}
+          href: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
           description: Indexer Aggregator
           icon: /icons/prowlarr.png
       - Bazarr:
-          href: https://bazarr.${SECRET_DOMAIN}
+          href: https://bazarr.${SECRET_DOMAIN_INTERNAL}
           description: Subtitle Manager
           icon: /icons/bazarr.png
       - SABnzbd:
-          href: https://sabnzbd.${SECRET_DOMAIN}
+          href: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
           description: Usenet Newsreader
           icon: /icons/sabnzbd.png
       - qBittorrent:
-          href: https://torrents.${SECRET_DOMAIN}
+          href: https://torrents.${SECRET_DOMAIN_INTERNAL}
           description: BitTorrent Client
           icon: /icons/qbittorrent.png
   settings.yaml: |-
