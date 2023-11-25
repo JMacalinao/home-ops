@@ -70,22 +70,22 @@ spec:
         datasources:
           - name: Prometheus
             type: prometheus
-            url: http://monitoring-prometheus-server
+            url: http://prometheus-server.monitoring
             access: proxy
             isDefault: true
           - name: NUT
             type: influxdb
-            url: http://monitoring-db-influxdb:8086
+            url: http://influxdb.monitoring:8086
             access: proxy
             database: nutups
           - name: Proxmox
             type: influxdb
-            url: http://monitoring-db-influxdb:8086
+            url: http://influxdb.monitoring:8086
             access: proxy
             database: homelab_proxmox
           - name: Speedtest
             type: influxdb
-            url: http://monitoring-db-influxdb:8086
+            url: http://influxdb.monitoring:8086
             access: proxy
             database: speedtest
     downloadDashboardsImage:

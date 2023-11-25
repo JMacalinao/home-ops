@@ -41,9 +41,9 @@ spec:
         scrape_timeout: 10s
         evaluation_interval: 10s
       remoteWrite:
-        - url: "http://monitoring-db-influxdb:8086/api/v1/prom/write?db=prometheus"
+        - url: "http://influxdb.monitoring:8086/api/v1/prom/write?db=prometheus"
       remoteRead:
-        - url: "http://monitoring-db-influxdb:8086/api/v1/prom/read?db=prometheus"
+        - url: "http://influxdb.monitoring:8086/api/v1/prom/read?db=prometheus"
       persistentVolume:
         enabled: false
     serverFiles:
