@@ -5,3 +5,4 @@ metadata:
   name: media-vpn
   labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
+    routed-gateway: "true"
