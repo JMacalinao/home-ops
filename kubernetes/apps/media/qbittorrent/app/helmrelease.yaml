@@ -3,8 +3,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app prowlarr
-  namespace: media-vpn
+  name: &app qbittorrent
+  namespace: media
 spec:
   interval: 30m
   chart:
@@ -34,10 +34,16 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/prowlarr-develop
-              tag: 1.10.4.4088@sha256:08995068e6699d8a307627ee476136be3bf8cd4f966f6a07aab76005055c85b8
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 4.6.1@sha256:796f135bcb572a3fb3138b0c65034535c0a7b1dcb83940fe12e00cad1b47fcbb
             env:
               TZ: ${TIMEZONE}
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
         pod:
           securityContext:
             runAsUser: ${CONFIG_APP_UID}
@@ -49,7 +55,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "torrents.${SECRET_DOMAIN_INTERNAL}"
             paths:
               - path: /
                 pathType: Prefix
@@ -63,8 +69,11 @@ spec:
       main:
         ports:
           http:
-            port: &port 9696
+            port: &port 8080
     persistence:
       config:
         enabled: true
         storageClass: ceph-rbd
+      media:
+        enabled: true
+        existingClaim: media

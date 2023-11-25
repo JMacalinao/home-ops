@@ -4,7 +4,9 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./bazarr/ks.yaml
+  - ./prowlarr/ks.yaml
   - ./pvc
+  - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
