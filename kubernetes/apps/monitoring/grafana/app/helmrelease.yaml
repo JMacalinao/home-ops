@@ -63,7 +63,7 @@ spec:
             options:
               path: /var/lib/grafana/dashboards/monitoring
     dashboardsConfigMaps:
-      monitoring: monitoring-dashboards
+      monitoring: grafana-dashboards
     datasources:
       datasources.yaml:
         apiVersion: 1
