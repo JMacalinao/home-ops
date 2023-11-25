@@ -39,7 +39,7 @@ spec:
             env:
               HOSTNAME: &upsname ups1
               INFLUXDB_DATABASE: nutups
-              INFLUXDB_HOST: influxdb
+              INFLUXDB_HOST: influxdb.monitoring
               INFLUXDB_PORT: "8086"
               NUT_HOST: ${SECRET_UPS1_NUT_IP}
               NUT_PORT: "3493"
@@ -49,3 +49,6 @@ spec:
             envFrom:
               - secretRef:
                   name: nut-explorer-ups1-secret
+    service:
+      main:
+        enabled: false
