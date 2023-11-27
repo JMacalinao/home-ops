@@ -69,8 +69,8 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: ceph-rbd
-        accessMode: ReadWriteOnce
+        storageClass: cephfs
+        accessMode: ReadWriteMany
         size: 5Gi
         globalMounts:
           - path: /mastodon/public/system
