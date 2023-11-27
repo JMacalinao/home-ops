@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: &app cctv
   namespace: default
-  annotations:
 spec:
   ingressClassName: internal
   rules:
