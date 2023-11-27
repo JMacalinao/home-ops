@@ -53,6 +53,7 @@ data:
       - kube-home Cluster:
           href: http://kubernetes.${SECRET_DOMAIN_INTERNAL}
           description: Kubernetes Dashboard
+          icon: /icons/kubernetes-dashboard.png
 
     - Network Admin:
       - Pi-hole:
