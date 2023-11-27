@@ -1,0 +1,22 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app cctv
+  namespace: default
+  annotations:
+spec:
+  ingressClassName: internal
+  rules:
+  - host: &host cctv.${SECRET_DOMAIN_INTERNAL}
+    http:
+      paths:
+      - backend:
+          service:
+            name: *app
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - *host

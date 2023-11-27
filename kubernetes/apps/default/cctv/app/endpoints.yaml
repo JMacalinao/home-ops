@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: cctv
+  namespace: default
+subsets:
+- addresses:
+  - ip: ${SECRET_CCTV_IP}
+  ports:
+  - name: http
+    port: 8090
+    protocol: TCP
+  - name: stun
+    port: 3478
+    protocol: UDP
+  - name: turn0
+    port: 50000
+    protocol: UDP
+  - name: turn1
+    port: 50001
+    protocol: UDP
+  - name: turn2
+    port: 50002
+    protocol: UDP
+  - name: turn3
+    port: 50003
+    protocol: UDP
+  - name: turn4
+    port: 50004
+    protocol: UDP
+  - name: turn5
+    port: 50005
+    protocol: UDP
+  - name: turn6
+    port: 50006
+    protocol: UDP
+  - name: turn7
+    port: 50007
+    protocol: UDP
+  - name: turn8
+    port: 50008
+    protocol: UDP
+  - name: turn9
+    port: 50009
+    protocol: UDP
+  - name: turn10
+    port: 50010
+    protocol: UDP
