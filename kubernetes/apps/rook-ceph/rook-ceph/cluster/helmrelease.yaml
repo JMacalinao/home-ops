@@ -57,5 +57,15 @@ spec:
             disabled: false
             interval: 45s
     cephBlockPools: {}
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: true
+      name: ceph-rbd-snapshot
+      isDefault: false
+      deletionPolicy: Delete
     cephFileSystems: {}
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: cephfs-snapshot
+      isDefault: false
+      deletionPolicy: Delete
     cephObjectStores: {}
