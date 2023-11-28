@@ -73,7 +73,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: ceph-rbd
+        existingClaim: *app
       media:
         enabled: true
         existingClaim: media
