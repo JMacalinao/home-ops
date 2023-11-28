@@ -55,7 +55,6 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: cephfs
-        existingClaim: mastodon-data
+        existingClaim: mastodon
         globalMounts:
           - path: /mastodon/public/system

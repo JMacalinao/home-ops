@@ -73,8 +73,6 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: cephfs
-        accessMode: ReadWriteMany
-        size: 5Gi
+        existingClaim: *app
         globalMounts:
           - path: /mastodon/public/system

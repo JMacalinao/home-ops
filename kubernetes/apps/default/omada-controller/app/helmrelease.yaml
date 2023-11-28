@@ -99,7 +99,6 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: ceph-rbd
-        size: 2Gi
+        existingClaim: *app
         globalMounts:
           - path: /opt/tplink/EAPController/data

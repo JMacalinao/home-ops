@@ -73,8 +73,6 @@ spec:
           - hosts:
               - *host
     persistence:
-      config:
+      data:
         enabled: true
-        storageClass: ceph-rbd
-        globalMounts:
-          - path: /data
+        existingClaim: *app

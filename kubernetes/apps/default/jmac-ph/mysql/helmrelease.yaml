@@ -40,17 +40,15 @@ spec:
             envFrom:
               - secretRef:
                   name: jmac-ph-mysql-secret
-        statefulset:
-          volumeClaimTemplates:
-            - name: data
-              accessMode: ReadWriteOnce
-              size: 2Gi
-              storageClass: ceph-rbd
-              globalMounts:
-                - path: /var/lib/mysql
     service:
       main:
         ports:
           http:
             protocol: TCP
             port: &port 3306
+    persistence:
+      data:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /var/lib/mysql

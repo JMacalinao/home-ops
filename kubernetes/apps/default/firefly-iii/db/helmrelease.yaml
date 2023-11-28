@@ -49,8 +49,6 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: ceph-rbd
-        accessMode: ReadWriteOnce
-        size: 2Gi
+        existingClaim: *app
         globalMounts:
           - path: /var/lib/mysql
