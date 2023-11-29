@@ -14,3 +14,4 @@ resources:
   - ./omada-controller/ks.yaml
   - ./scanner/ks.yaml
   - ./vaultwarden/ks.yaml
+  - ./voip/ks.yaml
