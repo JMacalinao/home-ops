@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: voip
+  namespace: default
+subsets:
+- addresses:
+  - ip: ${SECRET_VOIP_IP}
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+  - name: voip
+    port: 5060
+    protocol: UDP
