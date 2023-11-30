@@ -57,14 +57,16 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
           affinity:
             podAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                  - key: pvcAffinity
-                    operator: In
-                    values:
-                    - mastodon
-                topologyKey: kubernetes.io/os
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: pvcAffinity
+                        operator: In
+                        values:
+                        - mastodon
+                    topologyKey: kubernetes.io/os
     ingress:
       main:
         enabled: true
