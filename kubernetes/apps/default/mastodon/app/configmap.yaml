@@ -2,7 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mastodon
-  namespace: default
 data:
   LOCAL_DOMAIN: ${SECRET_DOMAIN}
   WEB_DOMAIN: mastodon.${SECRET_DOMAIN}
