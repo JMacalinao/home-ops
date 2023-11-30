@@ -29,6 +29,8 @@ spec:
     controllers:
       main:
         type: deployment
+        labels:
+          pvc-affinity: mastodon
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -48,6 +50,15 @@ spec:
           securityContext:
             fsGroup: 991
             fsGroupChangePolicy: OnRootMismatch
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: pvc-affinity
+                    operator: In
+                    values:
+                    - mastodon
     service:
       main:
         enabled: false
