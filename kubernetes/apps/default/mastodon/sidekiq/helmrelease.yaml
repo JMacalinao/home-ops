@@ -59,6 +59,7 @@ spec:
                     operator: In
                     values:
                     - mastodon
+                topologyKey: kubernetes.io/os
     service:
       main:
         enabled: false

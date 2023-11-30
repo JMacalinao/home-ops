@@ -64,6 +64,7 @@ spec:
                     operator: In
                     values:
                     - mastodon
+                topologyKey: kubernetes.io/os
     ingress:
       main:
         enabled: true
