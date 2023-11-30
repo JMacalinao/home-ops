@@ -35,7 +35,7 @@ spec:
       main:
         type: deployment
         labels:
-          pvc-affinity: mastodon
+          pvcAffinity: mastodon
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -60,7 +60,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
               - labelSelector:
                   matchExpressions:
-                  - key: pvcaffinity
+                  - key: pvcAffinity
                     operator: In
                     values:
                     - mastodon
