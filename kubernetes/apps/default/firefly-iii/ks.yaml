@@ -3,9 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-firefly-iii-db
+  name: &db firefly-iii-db
   namespace: flux-system
 spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *db
   path: ./kubernetes/apps/default/firefly-iii/db
   prune: true
   sourceRef:
@@ -15,21 +19,29 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute:
+      APP: *db
+      VOLSYNC_CAPACITY: 2Gi
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-firefly-iii-app
+  name: &app firefly-iii-app
   namespace: flux-system
 spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   path: ./kubernetes/apps/default/firefly-iii/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
   dependsOn:
-    - name: cluster-apps-firefly-iii-db
+    - name: firefly-iii-db
   wait: false
   interval: 30m
   retryInterval: 1m
