@@ -60,7 +60,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
               - labelSelector:
                   matchExpressions:
-                  - key: pvc-affinity
+                  - key: pvcaffinity
                     operator: In
                     values:
                     - mastodon
