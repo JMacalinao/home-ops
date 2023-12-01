@@ -41,7 +41,7 @@ spec:
             nameOverride: *app
             image:
               repository: postgres
-              tag: 15
+              tag: 16
             env:
               - name: POSTGRES_USER
                 valueFrom:
