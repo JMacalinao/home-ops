@@ -71,6 +71,6 @@ spec:
         advancedMounts:
           main:
             main:
-            - path: /app/config/config.local.js
+            - path: /etc/scanservjs/config.local.js
               readOnly: true
               subPath: config.local.js
