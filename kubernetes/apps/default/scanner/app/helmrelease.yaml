@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: sbs20/scanservjs
-              tag: v2.27.0
+              tag: v3.0.3
             env:
               TZ: ${TIMEZONE}
               SANED_NET_HOSTS: ${SECRET_SANED_HOSTS}
