@@ -88,9 +88,3 @@ spec:
         ports:
           http:
             port: &port 3000
-    persistence:
-      data:
-        enabled: true
-        existingClaim: *app
-        globalMounts:
-          - path: /mastodon/public/system

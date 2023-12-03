@@ -65,9 +65,3 @@ spec:
     service:
       main:
         enabled: false
-    persistence:
-      data:
-        enabled: true
-        existingClaim: mastodon
-        globalMounts:
-          - path: /mastodon/public/system
