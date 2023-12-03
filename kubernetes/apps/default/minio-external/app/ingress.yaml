@@ -2,7 +2,27 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: &app minio-external-mastodon
+  name: &app minio-external
+spec:
+  ingressClassName: internal
+  rules:
+  - host: &app_host minio.${SECRET_DOMAIN_INTERNAL}
+    http:
+      paths:
+      - backend:
+          service:
+            name: minio-external
+            port:
+              number: 9002
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - *app_host
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &mastodon minio-external-mastodon
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
     nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -14,7 +34,7 @@ metadata:
 spec:
   ingressClassName: external
   rules:
-  - host: &host mastodon-static.${SECRET_DOMAIN}
+  - host: &mastodon_host mastodon-static.${SECRET_DOMAIN}
     http:
       paths:
       - backend:
@@ -26,4 +46,4 @@ spec:
         path: /(.*)
   tls:
   - hosts:
-    - *host
+    - *mastodon_host
