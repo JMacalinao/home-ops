@@ -8,7 +8,9 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     nginx.ingress.kubernetes.io/rewrite-target: /mastodon/$1
-
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-Content-Type-Options nosniff;
+      add_header Content-Security-Policy "default-src 'none'; form-action 'none';" always;
 spec:
   ingressClassName: external
   rules:
@@ -21,6 +23,7 @@ spec:
             port:
               number: 80
         pathType: ImplementationSpecific
+        path: /(.*)
   tls:
   - hosts:
     - *host
