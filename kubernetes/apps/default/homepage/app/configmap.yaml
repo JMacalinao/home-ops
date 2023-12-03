@@ -46,6 +46,10 @@ data:
           href: http://nas-backup.${SECRET_DOMAIN_INTERNAL}
           description: Network-attached Storage
           icon: /icons/truecommand.png
+      - MinIO:
+          href: http://minio.${SECRET_DOMAIN_INTERNAL}
+          description: Object Storage
+          icon: /icons/minio-light.png
       - Grafana:
           href: http://monitor.${SECRET_DOMAIN_INTERNAL}
           description: Monitoring Dashboards
