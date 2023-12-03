@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: minio-external
+subsets:
+- addresses:
+  - ip: ${SECRET_NAS_IP}
+  ports:
+  - name: http
+    port: 9000
+    protocol: TCP

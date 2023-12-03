@@ -5,7 +5,7 @@ metadata:
   name: media
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: vlan88.nas.hdc
+  server: ${SECRET_NAS_HOST}
   share: /mnt/main/media
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
