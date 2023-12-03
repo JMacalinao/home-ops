@@ -16,6 +16,8 @@ All Kubernetes nodes are provisioned as Proxmox VMs with the following specifica
 
 ## Hardware
 
+Except for the Pis, all hardware are connected through 10Gb fiber or copper networking.
+
 ### Main Rack
 
 | Hostname     | Device                | CPU                  | RAM        | Storage                                         | Operating System      | Function                                                  |
@@ -34,5 +36,3 @@ All Kubernetes nodes are provisioned as Proxmox VMs with the following specifica
 | ueno         | HP Elite Mini 600 G9  | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 256GB NVMe                         | Proxmox 8.0           | Kubernetes                                                |
 | kanda        | HP Elite Mini 600 G9  | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 256GB NVMe                         | Proxmox 8.0           | Kubernetes, CCTV, UPS metrics                             |
 | yurakucho    | HP Elite Mini 600 G9  | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 512GB NVMe                         | Proxmox 8.0           | VMs                                                       |
-
-Except for the Pis, all hardware are connected through 10Gb fiber or copper networking.
