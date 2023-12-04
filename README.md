@@ -13,6 +13,7 @@ All Kubernetes nodes are provisioned as Proxmox VMs with the following specifica
 * 8 cores
 * 16GB RAM
 * Debian 12 (Bookworm), cloud-init
+* 24GB disk space
 
 ## Hardware
 
@@ -37,9 +38,9 @@ Except for the Pis, all machines are connected through 10Gb fiber or copper netw
 | Hostname        | Device                      | CPU                  | RAM        | Storage                                         | Operating System      | Function                                                  |
 |-----------------|-----------------------------|----------------------|------------|-------------------------------------------------|-----------------------|-----------------------------------------------------------|
 | quadron-crs317  | Mikrotik CRS317-1G-16S+     |                      |            |                                                 | RouterOS 7.12         | Home Office Switch                                        |
-| quadron-css610  | Mikrotik CSS610-8P-2S+IN    |                      |            |                                                 | SwOS Lite 2.34        | PoE Switch                                                |
+| quadron-css610  | Mikrotik CSS610-8P-2S+IN    |                      |            |                                                 | SwOS Lite 2.16        | PoE Switch                                                |
 | nippori         | HP Elite Mini 600 G9        | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 256GB NVMe                         | Proxmox 8.0           | Kubernetes, Home Assistant, Jellyfin                      |
 | ueno            | HP Elite Mini 600 G9        | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 256GB NVMe                         | Proxmox 8.0           | Kubernetes                                                |
 | kanda           | HP Elite Mini 600 G9        | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 256GB NVMe                         | Proxmox 8.0           | Kubernetes, CCTV, UPS metrics                             |
 | yurakucho       | HP Elite Mini 600 G9        | i5-12500T 6C/12T     | 96GB DDR5  | 16GB USB, 2x 512GB NVMe                         | Proxmox 8.0           | VMs                                                       |
-| JJ's Mac Studio | Apple Mac Studio            | M2 Max 8P4E          | 32GB       | 512GB SSD                                       | macOS Ventura         | Main PC, Development                                      |
+| JJ's Mac Studio | Apple Mac Studio            | M2 Max 8P4E          | 32GB       | 512GB SSD                                       | macOS Sonoma          | Main PC, development                                      |
