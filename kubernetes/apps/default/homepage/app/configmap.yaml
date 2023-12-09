@@ -51,7 +51,7 @@ data:
           description: Object Storage
           icon: /icons/minio-light.png
       - Grafana:
-          href: http://monitor.${SECRET_DOMAIN_INTERNAL}
+          href: http://grafana.${SECRET_DOMAIN_INTERNAL}
           description: Monitoring Dashboards
           icon: /icons/grafana.png
       - kube-home Cluster:
