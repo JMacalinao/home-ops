@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: ghost
-              tag: 5.75.0
+              tag: 5.75.1
             env:
               database__client: mysql
               url: https://${SECRET_DOMAIN_INTERNAL}
