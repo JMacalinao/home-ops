@@ -90,7 +90,7 @@ spec:
             database: speedtest
     downloadDashboardsImage:
       repository: curlimages/curl
-      tag: 8.4.0
+      tag: 8.5.0
       sha: ""
       pullPolicy: IfNotPresent
     plugins:
