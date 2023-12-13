@@ -9,4 +9,5 @@ data:
   SMTP_FROM: info@${SECRET_DOMAIN}
   SMTP_FROM_NAME: Vaultwarden
   SMTP_SECURITY: "starttls"
+  HELO_NAME: ${SECRET_DOMAIN}
   WEBSOCKET_ENABLED: "true"
