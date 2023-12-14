@@ -1,0 +1,49 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app macalinao-org
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: https://mastodon.${SECRET_DOMAIN}/$$1
+spec:
+  ingressClassName: external
+  rules:
+  - host: &host ${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: mastodon
+            port:
+              number: 80
+        pathType: Prefix
+        path: /(.*)
+  tls:
+  - hosts:
+    - *host
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app macalinao-org-webfinger
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: https://mastodon.${SECRET_DOMAIN}/.well-known/webfinger
+spec:
+  ingressClassName: external
+  rules:
+  - host: *host
+    http:
+      paths:
+      - backend:
+          service:
+            name: mastodon
+            port:
+              number: 80
+        pathType: Prefix
+        path: /.well-known/webfinger
+  tls:
+  - hosts:
+    - *host
