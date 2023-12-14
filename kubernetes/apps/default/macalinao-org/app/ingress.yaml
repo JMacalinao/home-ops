@@ -34,7 +34,7 @@ metadata:
 spec:
   ingressClassName: external
   rules:
-  - host: *host
+  - host: &host ${SECRET_DOMAIN}
     http:
       paths:
       - backend:
