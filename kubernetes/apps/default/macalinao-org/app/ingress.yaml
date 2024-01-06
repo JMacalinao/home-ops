@@ -47,3 +47,27 @@ spec:
   tls:
   - hosts:
     - *host
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app macalinao-org-host-meta
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: https://mastodon.${SECRET_DOMAIN}/.well-known/host-meta
+spec:
+  ingressClassName: external
+  rules:
+  - host: &host ${SECRET_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: mastodon
+            port:
+              number: 80
+        pathType: Prefix
+        path: /.well-known/host-meta
+  tls:
+  - hosts:
+    - *host
