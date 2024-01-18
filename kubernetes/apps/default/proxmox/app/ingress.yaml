@@ -1,0 +1,20 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app proxmox
+spec:
+  ingressClassName: internal
+  rules:
+  - host: &host proxmox.${SECRET_DOMAIN_INTERNAL}
+    http:
+      paths:
+      - backend:
+          service:
+            name: proxmox
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - *host
