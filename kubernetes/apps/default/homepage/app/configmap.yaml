@@ -136,6 +136,10 @@ data:
           href: https://pihole.${SECRET_DOMAIN_INTERNAL}
           description: DNS Tracker/Ad Blocker
           icon: /icons/pihole.png
+          widget:
+            type: pihole
+            url: https://pihole.${SECRET_DOMAIN_INTERNAL}
+            key: "{{HOMEPAGE_VAR_PIHOLE_API_KEY_1}}" 
       - Omada:
           href: https://omada.${SECRET_DOMAIN_INTERNAL}
           description: AP Management
