@@ -142,8 +142,24 @@ data:
             key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
       - Omada:
           href: https://omada.${SECRET_DOMAIN_INTERNAL}
-          description: AP Management
+          description: Home
           icon: /icons/tplink.png
+          widget:
+            type: omada
+            url: https://omada.${SECRET_DOMAIN_INTERNAL}
+            username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
+            password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
+            site: HDC
+      - Omada:
+          href: https://omada.${SECRET_DOMAIN_INTERNAL}
+          description: Haven
+          icon: /icons/tplink.png
+          widget:
+            type: omada
+            url: https://omada.${SECRET_DOMAIN_INTERNAL}
+            username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
+            password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
+            site: School
       - Pharos Control:
           href: https://pharos.${SECRET_DOMAIN_INTERNAL}
           description: CPE Management
@@ -210,6 +226,10 @@ data:
     color: neutral
     layout:
       Hypervisors:
+        header: true
+        style: row
+        columns: 4
+      Network Admin:
         header: true
         style: row
         columns: 4
