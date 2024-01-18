@@ -33,6 +33,77 @@ data:
         - abbr: RE
           href: https://reddit.com
   services.yaml: |-
+    - Hypervisors:
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: akihabara
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: akihabara
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: shinjuku
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: shinjuku
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: shibuya
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: shibuya
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: nippori
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: nippori
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: ueno
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: ueno
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: kanda
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: kanda
+      - Proxmox:
+          icon: proxmox.svg
+          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          description: yurakucho
+          widget:
+            type: proxmox
+            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            username: ${HOMEPAGE_VAR_PROXMOX_USERNAME}
+            password: ${HOMEPAGE_VAR_PROXMOX_PASSWORD}
+            node: yurakucho
     - System Admin:
       - Proxmox:
           href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
@@ -132,6 +203,11 @@ data:
     target: _self
     theme: dark
     color: neutral
+    layout:
+      Hypervisors:
+        header: true
+        style: row
+        columns: 4
   widgets.yaml: |-
     - resources:
         cpu: true
