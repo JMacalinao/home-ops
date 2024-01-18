@@ -139,7 +139,7 @@ data:
           widget:
             type: pihole
             url: https://pihole.${SECRET_DOMAIN_INTERNAL}
-            key: "{{HOMEPAGE_VAR_PIHOLE_API_KEY_1}}" 
+            key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
       - Omada:
           href: https://omada.${SECRET_DOMAIN_INTERNAL}
           description: AP Management
