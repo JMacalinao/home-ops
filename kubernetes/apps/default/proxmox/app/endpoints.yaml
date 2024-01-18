@@ -10,3 +10,9 @@ subsets:
   - name: https
     port: 8006
     protocol: TCP
+  - name: websocket
+    port: 5900
+    protocol: TCP
+  - name: spice
+    port: 3128
+    protocol: TCP

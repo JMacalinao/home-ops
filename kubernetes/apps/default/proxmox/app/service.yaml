@@ -16,5 +16,13 @@ spec:
     port: 443
     protocol: TCP
     targetPort: 8006
+  - name: websocket
+    port: 5900
+    protocol: TCP
+    targetPort: 5900
+  - name: spice
+    port: 3128
+    protocol: TCP
+    targetPort: 3128
   sessionAffinity: None
   type: ClusterIP
