@@ -106,18 +106,22 @@ data:
             node: yurakucho
 
     - System Admin:
-      - Proxmox:
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
-          description: Virtual Environment
-          icon: /icons/proxmox.png
       - TrueNAS:
           href: http://nas.${SECRET_DOMAIN_INTERNAL}
-          description: Network-attached Storage
+          description: Main NAS
           icon: /icons/truecommand.png
-      - TrueNAS Backup:
+          widget:
+            type: truenas
+            url: https://nas.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_NAS_KEY}}
+      - TrueNAS:
           href: http://nas-backup.${SECRET_DOMAIN_INTERNAL}
-          description: Network-attached Storage
+          description: Backup NAS
           icon: /icons/truecommand.png
+          widget:
+            type: truenas
+            url: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_NAS_BACKUP_KEY}}
       - MinIO:
           href: http://minio.${SECRET_DOMAIN_INTERNAL}
           description: Object Storage

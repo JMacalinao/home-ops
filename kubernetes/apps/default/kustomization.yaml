@@ -17,5 +17,7 @@ resources:
   - ./pihole/ks.yaml
   - ./proxmox/ks.yaml
   - ./scanner/ks.yaml
+  - ./truenas/ks.yaml
+  - ./truenas-backup/ks.yaml
   - ./vaultwarden/ks.yaml
   - ./voip/ks.yaml

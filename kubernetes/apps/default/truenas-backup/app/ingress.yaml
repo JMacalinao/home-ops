@@ -1,0 +1,20 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app truenas-backup
+spec:
+  ingressClassName: internal
+  rules:
+  - host: &host nas-backup.${SECRET_DOMAIN_INTERNAL}
+    http:
+      paths:
+      - backend:
+          service:
+            name: truenas-backup
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - *host
