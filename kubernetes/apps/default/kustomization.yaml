@@ -14,6 +14,7 @@ resources:
   - ./mastodon/ks.yaml
   - ./minio-external/ks.yaml
   - ./omada-controller/ks.yaml
+  - ./proxmox/ks.yaml
   - ./scanner/ks.yaml
   - ./vaultwarden/ks.yaml
   - ./voip/ks.yaml
