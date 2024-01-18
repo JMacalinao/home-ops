@@ -107,16 +107,16 @@ data:
 
     - System Admin:
       - TrueNAS:
-          href: http://nas.${SECRET_DOMAIN_INTERNAL}
-          description: Main NAS
+          href: https://nas.${SECRET_DOMAIN_INTERNAL}
+          description: Network-Attached Storage
           icon: /icons/truecommand.png
           widget:
             type: truenas
             url: https://nas.${SECRET_DOMAIN_INTERNAL}
             key: {{HOMEPAGE_VAR_NAS_KEY}}
-      - TrueNAS:
-          href: http://nas-backup.${SECRET_DOMAIN_INTERNAL}
-          description: Backup NAS
+      - TrueNAS Backup:
+          href: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
+          description: Backup Storage
           icon: /icons/truecommand.png
           widget:
             type: truenas
@@ -144,9 +144,9 @@ data:
             type: pihole
             url: https://pihole.${SECRET_DOMAIN_INTERNAL}
             key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
-      - Omada:
+      - Omada (Home):
           href: https://omada.${SECRET_DOMAIN_INTERNAL}
-          description: Home
+          description: SDN Management
           icon: /icons/tplink.png
           widget:
             type: omada
@@ -154,6 +154,16 @@ data:
             username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
             password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
             site: HDC
+      - Omada (Haven):
+          href: https://omada.${SECRET_DOMAIN_INTERNAL}
+          description: SDN Management
+          icon: /icons/tplink.png
+          widget:
+            type: omada
+            url: https://omada.${SECRET_DOMAIN_INTERNAL}
+            username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
+            password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
+            site: School
       - Pharos Control:
           href: https://pharos.${SECRET_DOMAIN_INTERNAL}
           description: CPE Management
@@ -168,10 +178,17 @@ data:
           href: https://cloud.${SECRET_DOMAIN}
           description: Personal Private Cloud
           icon: /icons/nextcloud.png
+          widget:
+            type: nextcloud
+            url: https://cloud.${SECRET_DOMAIN}
+            key: {{HOMEPAGE_VAR_NEXTCLOUD_KEY}}
       - Mastodon:
           href: https://mastodon.${SECRET_DOMAIN}
           description: Microblogging Platform
           icon: /icons/mastodon.png
+          widget:
+            type: mastodon
+            url: https://mastodon.${SECRET_DOMAIN}
       - Vaultwarden:
           href: https://vault.${SECRET_DOMAIN}
           description: Secrets Manager
@@ -194,26 +211,51 @@ data:
           href: https://radarr.${SECRET_DOMAIN_INTERNAL}
           description: Movie Media Manager
           icon: /icons/radarr.png
+          widget:
+            type: radarr
+            url: https://radarr.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_RADARR_KEY}}
       - Sonarr:
           href: https://sonarr.${SECRET_DOMAIN_INTERNAL}
           description: TV Media Manager
           icon: /icons/sonarr.png
+          widget:
+            type: sonarr
+            url: https://sonarr.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_SONARR_KEY}}
       - Prowlarr:
           href: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
           description: Indexer Aggregator
           icon: /icons/prowlarr.png
+          widget:
+            type: prowlarr
+            url: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
       - Bazarr:
           href: https://bazarr.${SECRET_DOMAIN_INTERNAL}
           description: Subtitle Manager
           icon: /icons/bazarr.png
+          widget:
+            type: bazarr
+            url: https://bazarr.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_BAZARR_KEY}}
       - SABnzbd:
           href: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
           description: Usenet Newsreader
           icon: /icons/sabnzbd.png
+          widget:
+            type: sabnzbd
+            url: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
+            key: {{HOMEPAGE_VAR_SABNZBD_KEY}}
       - qBittorrent:
           href: https://torrents.${SECRET_DOMAIN_INTERNAL}
           description: BitTorrent Client
           icon: /icons/qbittorrent.png
+          widget:
+            type: qbittorrent
+            url: https://torrents.${SECRET_DOMAIN_INTERNAL}
+            username: {{HOMEPAGE_VAR_TORRENTS_USERNAME}}
+            password: {{HOMEPAGE_VAR_TORRENTS_PASSWORD}}
   settings.yaml: |-
     target: _self
     theme: dark
@@ -229,6 +271,14 @@ data:
         style: row
         columns: 4
       Network Admin:
+        header: true
+        style: row
+        columns: 4
+      Apps:
+        header: true
+        style: row
+        columns: 4
+      Media Center:
         header: true
         style: row
         columns: 4
@@ -248,6 +298,13 @@ data:
         units: metric
         apiKey: {{HOMEPAGE_VAR_OPENWEATHERMAP_KEY}}
         cache: 5
+
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: short
+          timeStyle: short
+          hour12: true
   docker.yaml: ""
   kubernetes.yaml: |
     mode: cluster
