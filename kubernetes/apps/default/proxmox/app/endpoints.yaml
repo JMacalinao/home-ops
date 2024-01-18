@@ -7,6 +7,6 @@ subsets:
 - addresses:
   - ip: ${SECRET_PROXMOX_IP}
   ports:
-  - name: http
+  - name: https
     port: 8006
     protocol: TCP

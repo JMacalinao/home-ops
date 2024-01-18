@@ -15,7 +15,7 @@ spec:
           service:
             name: proxmox
             port:
-              number: 80
+              number: 443
         pathType: ImplementationSpecific
   tls:
   - hosts:
