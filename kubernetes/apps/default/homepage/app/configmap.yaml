@@ -266,9 +266,14 @@ data:
   settings.yaml: |-
     target: _self
     theme: dark
-    color: neutral
-    background: https://home.${SECRET_DOMAIN}/local/wallpaper.jpg
-    cardBlur: sm
+    color: slate
+    background: 
+      image: https://home.${SECRET_DOMAIN}/local/wallpaper.jpg
+      blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
+      saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+      brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+      opacity: 100 # 0-100
+    # cardBlur: sm
     useEqualHeights: true
     layout:
       Hypervisors:
