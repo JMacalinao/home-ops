@@ -188,6 +188,14 @@ data:
           widget:
             type: mastodon
             url: https://mastodon.${SECRET_DOMAIN}
+      - Home Assistant:
+          href: https://home.${SECRET_DOMAIN}
+          description: Smart Home Automation
+          icon: /icons/homeassistant.png
+          widget:
+            type: homeassistant
+            url: https://home.${SECRET_DOMAIN}
+            key: {{HOMEPAGE_VAR_HOME_ASSISTANT_KEY}}
       - Vaultwarden:
           href: https://vault.${SECRET_DOMAIN}
           description: Secrets Manager
@@ -259,7 +267,7 @@ data:
     target: _self
     theme: dark
     color: neutral
-    background: /icons/wallpaper.jpg
+    background: https://home.${SECRET_DOMAIN}/local/wallpaper.jpg
     cardBlur: sm
     useEqualHeights: true
     layout:
