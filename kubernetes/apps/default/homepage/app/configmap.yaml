@@ -268,19 +268,19 @@ data:
       System Admin:
         header: true
         style: row
-        columns: 4
+        columns: 3
       Network Admin:
         header: true
         style: row
-        columns: 4
+        columns: 3
       Apps:
         header: true
         style: row
-        columns: 4
+        columns: 3
       Media Center:
         header: true
         style: row
-        columns: 4
+        columns: 3
   widgets.yaml: |-
     - resources:
         cpu: true
