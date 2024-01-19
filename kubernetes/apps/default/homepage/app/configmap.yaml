@@ -118,10 +118,6 @@ data:
           href: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
           description: Backup Storage
           icon: /icons/truecommand.png
-          widget:
-            type: truenas
-            url: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
-            key: {{HOMEPAGE_VAR_NAS_BACKUP_KEY}}
       - MinIO:
           href: http://minio.${SECRET_DOMAIN_INTERNAL}
           description: Object Storage
@@ -154,6 +150,7 @@ data:
             username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
             password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
             site: HDC
+            fields: ["connectedAp", "activeUser", "alerts"]
       - Omada (Haven):
           href: https://omada.${SECRET_DOMAIN_INTERNAL}
           description: SDN Management
@@ -164,6 +161,7 @@ data:
             username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
             password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
             site: School
+            fields: ["connectedAp", "activeUser", "alerts"]
       - Pharos Control:
           href: https://pharos.${SECRET_DOMAIN_INTERNAL}
           description: CPE Management
@@ -182,6 +180,7 @@ data:
             type: nextcloud
             url: https://cloud.${SECRET_DOMAIN}
             key: {{HOMEPAGE_VAR_NEXTCLOUD_KEY}}
+            fields: ["freespace", "activeusers", "numfiles"]
       - Mastodon:
           href: https://mastodon.${SECRET_DOMAIN}
           description: Microblogging Platform
