@@ -259,6 +259,8 @@ data:
     target: _self
     theme: dark
     color: neutral
+    background: /icons/wallpaper.jpg
+    cardBlur: sm
     useEqualHeights: true
     layout:
       Hypervisors:
