@@ -50,7 +50,7 @@ spec:
               - name: POSTGRES_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    key: AUTHENTIK_POSTGRESQL__PASS
+                    key: AUTHENTIK_POSTGRESQL__PASSWORD
                     name: authentik-db-secret
     service:
       main:
