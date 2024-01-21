@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentik
+data:
+  AUTHENTIK_EMAIL__USE_TLS: true
+  AUTHENTIK_EMAIL__FROM: info@${SECRET_DOMAIN}
+  AUTHENTIK_POSTGRESQL__HOST: authentik-db

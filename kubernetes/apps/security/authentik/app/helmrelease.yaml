@@ -1,0 +1,75 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app authentik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: authentik
+      version: 2023.10.6
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    authentik:
+      log_level: info
+      email:
+        port: 587
+        use_tls: true
+      error_reporting:
+        enabled: false
+        send_pii: false
+      redis:
+        host: authentik-redis.security.svc.cluster.local
+        password: ""
+    envFrom:
+      - configMapRef:
+          name: authentik
+      - secretRef:
+          name: authentik-app-secret
+      - secretRef:
+          name: authentik-db-secret
+      - secretRef:
+          name: authentik-redis-secret
+    ingress:
+      enabled: true
+      ingressClassName: external
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      hosts:
+        - host: &host "auth.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              service:
+                name: main
+                port: http
+        tls:
+          - hosts:
+              - *host
+    postgresql:
+      enabled: false
+    prometheus:
+      rules:
+        create: true
+      serviceMonitor:
+        create: true
+    redis:
+      enabled: false
