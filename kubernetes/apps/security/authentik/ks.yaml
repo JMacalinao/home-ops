@@ -5,7 +5,7 @@ metadata:
   name: &app authentik-db
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: security
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
