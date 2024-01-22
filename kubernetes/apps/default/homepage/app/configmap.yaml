@@ -146,7 +146,7 @@ data:
           icon: /icons/tplink.png
           widget:
             type: omada
-            url: https://omada.${SECRET_DOMAIN_INTERNAL}
+            url: https://omada-controller.default.svc.cluster.local
             username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
             password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
             site: HDC
@@ -157,7 +157,7 @@ data:
           icon: /icons/tplink.png
           widget:
             type: omada
-            url: https://omada.${SECRET_DOMAIN_INTERNAL}
+            url: https://omada-controller.default.svc.cluster.local
             username: {{HOMEPAGE_VAR_OMADA_USERNAME}}
             password: {{HOMEPAGE_VAR_OMADA_PASSWORD}}
             site: School
@@ -220,7 +220,7 @@ data:
           icon: /icons/radarr.png
           widget:
             type: radarr
-            url: https://radarr.${SECRET_DOMAIN_INTERNAL}
+            url: http://radarr.media.svc.cluster.local:7878
             key: {{HOMEPAGE_VAR_RADARR_KEY}}
       - Sonarr:
           href: https://sonarr.${SECRET_DOMAIN_INTERNAL}
@@ -228,7 +228,7 @@ data:
           icon: /icons/sonarr.png
           widget:
             type: sonarr
-            url: https://sonarr.${SECRET_DOMAIN_INTERNAL}
+            url: http://sonarr.media.svc.cluster.local:8989
             key: {{HOMEPAGE_VAR_SONARR_KEY}}
       - Prowlarr:
           href: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
@@ -236,7 +236,7 @@ data:
           icon: /icons/prowlarr.png
           widget:
             type: prowlarr
-            url: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
+            url: http://prowlarr.media.svc.cluster.local:9696
             key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
       - Bazarr:
           href: https://bazarr.${SECRET_DOMAIN_INTERNAL}
@@ -244,7 +244,7 @@ data:
           icon: /icons/bazarr.png
           widget:
             type: bazarr
-            url: https://bazarr.${SECRET_DOMAIN_INTERNAL}
+            url: http://bazarr.media.svc.cluster.local:6767
             key: {{HOMEPAGE_VAR_BAZARR_KEY}}
       - SABnzbd:
           href: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
