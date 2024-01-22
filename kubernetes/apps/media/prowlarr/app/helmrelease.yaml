@@ -50,7 +50,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     ingress:
       main:
-        enabled: true
+        enabled: false
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
