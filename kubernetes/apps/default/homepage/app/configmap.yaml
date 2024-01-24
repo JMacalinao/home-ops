@@ -124,7 +124,7 @@ data:
           icon: /icons/authentik.png
           widget:
             type: authentik
-            url: http://authentik.security.svc.cluster.local:9300
+            url: http://authentik.security.svc.cluster.local:9000
             key: {{HOMEPAGE_VAR_AUTHENTIK_KEY}}
       - MinIO:
           href: http://minio.${SECRET_DOMAIN_INTERNAL}
