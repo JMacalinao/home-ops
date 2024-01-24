@@ -220,7 +220,7 @@ data:
           icon: /icons/jellyfin.png
           widget:
             type: jellyfin
-            url: http://jellyfin.media.svc.cluster.local
+            url: http://jellyfin.media.svc.cluster.local:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
       - Radarr:
           href: https://radarr.${SECRET_DOMAIN_INTERNAL}
