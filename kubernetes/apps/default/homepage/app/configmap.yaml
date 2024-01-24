@@ -217,7 +217,7 @@ data:
       - Jellyfin:
           href: https://jellyfin.${SECRET_DOMAIN}
           description: Media Server
-          icon: /icons/radarr.png
+          icon: /icons/jellyfin.png
           widget:
             type: jellyfin
             url: http://jellyfin.media.svc.cluster.local

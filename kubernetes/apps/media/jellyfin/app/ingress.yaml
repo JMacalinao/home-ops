@@ -6,7 +6,7 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
 spec:
-  ingressClassName: internal
+  ingressClassName: external
   rules:
   - host: &host jellyfin.${SECRET_DOMAIN}
     http:
