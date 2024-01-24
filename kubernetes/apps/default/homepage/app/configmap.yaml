@@ -214,6 +214,14 @@ data:
           icon: /icons/scanservjs.png
 
     - Media Center:
+      - Jellyfin:
+          href: https://jellyfin.${SECRET_DOMAIN}
+          description: Media Server
+          icon: /icons/radarr.png
+          widget:
+            type: jellyfin
+            url: http://jellyfin.media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
       - Radarr:
           href: https://radarr.${SECRET_DOMAIN_INTERNAL}
           description: Movie Media Manager

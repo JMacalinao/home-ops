@@ -1,12 +1,15 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-jellyfin
+  name: &app jellyfin
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/default/jellyfin/app
+  targetNamespace: media
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/media/jellyfin/app
   prune: true
   sourceRef:
     kind: GitRepository

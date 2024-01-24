@@ -2,14 +2,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jellyfin
-  namespace: default
+  name: &app jellyfin
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
 spec:
-  ingressClassName: external
+  ingressClassName: internal
   rules:
-  - host: jellyfin.${SECRET_DOMAIN}
+  - host: &host jellyfin.${SECRET_DOMAIN}
     http:
       paths:
       - backend:
@@ -20,4 +19,4 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - jellyfin.${SECRET_DOMAIN}
+    - *host
