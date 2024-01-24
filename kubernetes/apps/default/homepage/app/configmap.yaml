@@ -118,6 +118,14 @@ data:
           href: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
           description: Backup Storage
           icon: /icons/truecommand.png
+      - Authentik:
+          href: https://auth.${SECRET_DOMAIN}
+          description: Identity Provider
+          icon: /icons/authentik.png
+          widget:
+            type: authentik
+            url: http://authentik.security.svc.cluster.local:9300
+            key: {{HOMEPAGE_VAR_AUTHENTIK_KEY}}
       - MinIO:
           href: http://minio.${SECRET_DOMAIN_INTERNAL}
           description: Object Storage
