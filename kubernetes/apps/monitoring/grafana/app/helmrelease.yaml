@@ -56,8 +56,6 @@ spec:
       auth.generic_oauth:
         name: authentik
         enabled: true
-        client_id: "{{GRAFANA_VAR_CLIENT_ID}}"
-        client_secret: "{{GRAFANA_VAR_CLIENT_SECRET}}"
         scopes: "openid profile email"
         auth_url: "https://auth.${SECRET_DOMAIN}/application/o/authorize/"
         token_url: "https://auth.${SECRET_DOMAIN}y/application/o/token/"
@@ -107,6 +105,17 @@ spec:
       tag: 8.5.0
       sha: ""
       pullPolicy: IfNotPresent
+    env:
+      - name: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            key: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+            name: grafana-secret
+      - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+            name: grafana-secret
     plugins:
       - dalvany-image-panel
     ingress:
