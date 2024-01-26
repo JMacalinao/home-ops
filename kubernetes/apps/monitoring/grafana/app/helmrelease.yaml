@@ -28,10 +28,10 @@ spec:
     keepHistory: false
   values:
     replicas: 1
-    admin:
-      existingSecret: "grafana-secret"
-      userKey: admin-user
-      passwordKey: admin-password
+    # admin:
+    #   existingSecret: "grafana-secret"
+    #   userKey: admin-user
+    #   passwordKey: admin-password
     grafana.ini:
       paths:
         data: /var/lib/grafana/
