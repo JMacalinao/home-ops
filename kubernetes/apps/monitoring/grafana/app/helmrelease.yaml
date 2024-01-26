@@ -59,7 +59,7 @@ spec:
         enabled: true
         scopes: "openid profile email"
         auth_url: "https://auth.${SECRET_DOMAIN}/application/o/authorize/"
-        token_url: "https://auth.${SECRET_DOMAIN}y/application/o/token/"
+        token_url: "https://auth.${SECRET_DOMAIN}/application/o/token/"
         api_url: "https://auth.${SECRET_DOMAIN}/application/o/userinfo/"
         # Optionally map user groups to Grafana roles
         role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || contains(groups, 'Grafana Users') && 'Viewer'
