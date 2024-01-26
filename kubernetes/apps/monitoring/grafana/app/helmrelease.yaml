@@ -52,7 +52,7 @@ spec:
         domain: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
         root_url: "https://{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
       auth:
-        signout_redirect_url: "https://auth.${SECRET_DOMAIN}/application/o/grafana"
+        signout_redirect_url: "https://auth.${SECRET_DOMAIN}/application/o/grafana/end-session/"
         oauth_auto_login: true
       auth.generic_oauth:
         name: authentik
