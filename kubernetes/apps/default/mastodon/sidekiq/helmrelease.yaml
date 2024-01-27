@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: tootsuite/mastodon
-              tag: v4.2.3
+              tag: v4.2.4
             command: ['bundle', 'exec', 'sidekiq']
             envFrom:
               - configMapRef:
