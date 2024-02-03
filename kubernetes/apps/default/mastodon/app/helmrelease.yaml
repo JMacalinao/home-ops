@@ -42,7 +42,7 @@ spec:
           main:
             image:
               repository: tootsuite/mastodon
-              tag: v4.2.4
+              tag: v4.2.5
             command: ['bash', '-c', 'rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000']
             envFrom:
               - configMapRef:
