@@ -103,7 +103,7 @@ spec:
             database: speedtest
     downloadDashboardsImage:
       repository: curlimages/curl
-      tag: 8.5.0
+      tag: 8.6.0
       sha: ""
       pullPolicy: IfNotPresent
     envFromSecret: grafana-secret
