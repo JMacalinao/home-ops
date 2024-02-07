@@ -10,6 +10,9 @@ data:
       - GitHub:
         - abbr: GH
           href: https://github.com
+      - TrueProject:
+        - abbr: TP
+          href: https://trueprojectinsight.com
 
     - Social:
       - Facebook:
