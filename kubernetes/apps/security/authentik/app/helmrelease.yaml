@@ -28,6 +28,15 @@ spec:
     global:
       deploymentAnnotations:
         reloader.stakater.com/auto: "true"
+      envFrom:
+        - configMapRef:
+            name: authentik
+        - secretRef:
+            name: authentik-app-secret
+        - secretRef:
+            name: authentik-db-secret
+        - secretRef:
+            name: authentik-redis-secret
     authentik:
       log_level: info
       email:
@@ -39,38 +48,26 @@ spec:
       redis:
         host: authentik-redis.security.svc.cluster.local
         password: ""
-    envFrom:
-      - configMapRef:
-          name: authentik
-      - secretRef:
-          name: authentik-app-secret
-      - secretRef:
-          name: authentik-db-secret
-      - secretRef:
-          name: authentik-redis-secret
-    ingress:
-      enabled: true
-      ingressClassName: external
-      annotations:
-        external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-      hosts:
-        - host: &host "auth.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              service:
-                name: main
-                port: http
-      tls:
-        - hosts:
-            - *host
+    server:
+      metrics:
+        serviceMonitor:
+          enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        hosts:
+          - &host "auth.${SECRET_DOMAIN}"
+        tls:
+          - hosts:
+              - *host
     postgresql:
       enabled: false
     prometheus:
       rules:
-        create: true
-      serviceMonitor:
-        create: true
+        enabled: true
     redis:
       enabled: false
