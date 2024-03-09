@@ -32,14 +32,11 @@ spec:
     app:
       ingress:
         enabled: true
-        className: internal
+        ingressClassName: internal
         annotations:
           hajimari.io/icon: mdi:kubernetes
         hosts:
           - &host "kubernetes.${SECRET_DOMAIN_INTERNAL}"
-        tls:
-          - hosts:
-              - *host
     nginx:
       enabled: false
     cert-manager:
