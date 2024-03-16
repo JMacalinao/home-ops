@@ -39,7 +39,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sabnzbd
-              tag: 4.2.2
+              tag: 4.2.3
             env:
               TZ: ${TIMEZONE}
               HOST_WHITELIST_ENTRIES: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
