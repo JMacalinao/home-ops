@@ -64,4 +64,5 @@ spec:
                     topologyKey: kubernetes.io/os
     service:
       main:
+        controller: main
         enabled: false

@@ -51,4 +51,5 @@ spec:
                   name: nut-exporter-home-office-secret
     service:
       main:
+        controller: main
         enabled: false

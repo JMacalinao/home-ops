@@ -51,4 +51,5 @@ spec:
                   name: nut-exporter-ups1-secret
     service:
       main:
+        controller: main
         enabled: false
