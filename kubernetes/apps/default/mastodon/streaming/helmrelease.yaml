@@ -55,7 +55,7 @@ spec:
             paths:
               - path: /api/v1/streaming
                 service:
-                  name: main
+                  identifier: main
                   port: http
         tls:
           - hosts:
