@@ -62,6 +62,7 @@ spec:
                 memory: 256M
     service:
       main:
+        controller: main
         ports:
           http:
             protocol: TCP

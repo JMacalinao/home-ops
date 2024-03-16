@@ -64,6 +64,7 @@ spec:
               - *host
     service:
       main:
+        controller: main
         ports:
           http:
             port: &port 2368

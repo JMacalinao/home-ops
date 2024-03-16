@@ -46,6 +46,7 @@ spec:
                   name: jmac-ph-mysql-secret
     service:
       main:
+        controller: main
         ports:
           http:
             protocol: TCP

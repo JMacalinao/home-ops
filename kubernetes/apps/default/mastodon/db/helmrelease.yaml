@@ -55,6 +55,7 @@ spec:
                     name: mastodon-db-secret
     service:
       main:
+        controller: main
         ports:
           http:
             protocol: TCP

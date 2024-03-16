@@ -62,6 +62,7 @@ spec:
               - *host
     service:
       main:
+        controller: main
         ports:
           http:
             port: &port 4000

@@ -46,6 +46,7 @@ spec:
                   name: firefly-iii-db-secret
     service:
       main:
+        controller: main
         ports:
           http:
             protocol: TCP
