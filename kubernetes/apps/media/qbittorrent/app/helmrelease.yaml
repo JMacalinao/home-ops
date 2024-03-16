@@ -31,6 +31,12 @@ spec:
     - name: volsync
       namespace: volsync
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
     controllers:
       main:
         annotations:
@@ -49,12 +55,6 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 4Gi
-        pod:
-          securityContext:
-            runAsUser: ${CONFIG_APP_UID}
-            runAsGroup: &gid ${CONFIG_MEDIA_UID}
-            fsGroup: *gid
-            fsGroupChangePolicy: OnRootMismatch
     ingress:
       main:
         enabled: true
