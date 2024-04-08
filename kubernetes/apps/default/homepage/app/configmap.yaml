@@ -137,10 +137,6 @@ data:
           href: http://grafana.${SECRET_DOMAIN_INTERNAL}
           description: Monitoring Dashboards
           icon: /icons/grafana.png
-      - kube-home Cluster:
-          href: http://kubernetes.${SECRET_DOMAIN_INTERNAL}
-          description: Kubernetes Dashboard
-          icon: /icons/kubernetes-dashboard.png
 
     - Network Admin:
       - Pi-hole:
