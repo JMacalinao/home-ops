@@ -54,7 +54,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: HTTPS
         hosts:
-          - host: &host "omada.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "omada.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix

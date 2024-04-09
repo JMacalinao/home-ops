@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-  - host: &host proxmox.${SECRET_DOMAIN_INTERNAL}
+  - host: &host proxmox.${SECRET_DOMAIN_SECONDARY}
     http:
       paths:
       - backend:

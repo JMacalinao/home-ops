@@ -58,7 +58,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "dashboard.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "dashboard.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix

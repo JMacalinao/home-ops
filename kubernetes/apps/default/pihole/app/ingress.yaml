@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-  - host: &host pihole.${SECRET_DOMAIN_INTERNAL}
+  - host: &host pihole.${SECRET_DOMAIN_SECONDARY}
     http:
       paths:
       - backend:

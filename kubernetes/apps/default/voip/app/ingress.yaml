@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-  - host: &host voip.${SECRET_DOMAIN_INTERNAL}
+  - host: &host voip.${SECRET_DOMAIN_SECONDARY}
     http:
       paths:
       - backend:

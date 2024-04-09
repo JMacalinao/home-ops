@@ -67,7 +67,7 @@ spec:
           nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
           nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
         hosts:
-          - host: &host "firefly.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "firefly.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix

@@ -55,10 +55,10 @@ data:
           annotations:
             hajimari.io/icon: simple-icons:cilium
           hosts:
-            - "hubble.${SECRET_DOMAIN_INTERNAL}"
+            - "hubble.${SECRET_DOMAIN_SECONDARY}"
           tls:
             - hosts:
-                - "hubble.${SECRET_DOMAIN_INTERNAL}"
+                - "hubble.${SECRET_DOMAIN_SECONDARY}"
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"

@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-  - host: &app_host minio.${SECRET_DOMAIN_INTERNAL}
+  - host: &app_host minio.${SECRET_DOMAIN_SECONDARY}
     http:
       paths:
       - backend:

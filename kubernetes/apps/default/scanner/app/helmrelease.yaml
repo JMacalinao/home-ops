@@ -48,7 +48,7 @@ spec:
           nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix

@@ -39,86 +39,86 @@ data:
     - Hypervisors:
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: akihabara
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: akihabara
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: shinjuku
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: shinjuku
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: shibuya
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: shibuya
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: nippori
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: nippori
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: ueno
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: ueno
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: kanda
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: kanda
       - Proxmox:
           icon: /icons/proxmox.png
-          href: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+          href: https://proxmox.${SECRET_DOMAIN_SECONDARY}
           description: yurakucho
           widget:
             type: proxmox
-            url: https://proxmox.${SECRET_DOMAIN_INTERNAL}
+            url: https://proxmox.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_PROXMOX_USERNAME}}
             password: {{HOMEPAGE_VAR_PROXMOX_PASSWORD}}
             node: yurakucho
 
     - System Admin:
       - TrueNAS:
-          href: https://nas.${SECRET_DOMAIN_INTERNAL}
+          href: https://nas.${SECRET_DOMAIN_SECONDARY}
           description: Network-Attached Storage
           icon: /icons/truecommand.png
           widget:
             type: truenas
-            url: https://nas.${SECRET_DOMAIN_INTERNAL}
+            url: https://nas.${SECRET_DOMAIN_SECONDARY}
             key: {{HOMEPAGE_VAR_NAS_KEY}}
       - TrueNAS Backup:
-          href: https://nas-backup.${SECRET_DOMAIN_INTERNAL}
+          href: https://nas-backup.${SECRET_DOMAIN_SECONDARY}
           description: Backup Storage
           icon: /icons/truecommand.png
       - Authentik:
@@ -130,25 +130,25 @@ data:
             url: https://auth.${SECRET_DOMAIN}
             key: {{HOMEPAGE_VAR_AUTHENTIK_KEY}}
       - MinIO:
-          href: http://minio.${SECRET_DOMAIN_INTERNAL}
+          href: http://minio.${SECRET_DOMAIN_SECONDARY}
           description: Object Storage
           icon: /icons/minio-light.png
       - Grafana:
-          href: http://grafana.${SECRET_DOMAIN_INTERNAL}
+          href: http://grafana.${SECRET_DOMAIN_SECONDARY}
           description: Monitoring Dashboards
           icon: /icons/grafana.png
 
     - Network Admin:
       - Pi-hole:
-          href: https://pihole.${SECRET_DOMAIN_INTERNAL}
+          href: https://pihole.${SECRET_DOMAIN_SECONDARY}
           description: DNS Tracker/Ad Blocker
           icon: /icons/pihole.png
           widget:
             type: pihole
-            url: https://pihole.${SECRET_DOMAIN_INTERNAL}
+            url: https://pihole.${SECRET_DOMAIN_SECONDARY}
             key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
       - Omada (Home):
-          href: https://omada.${SECRET_DOMAIN_INTERNAL}
+          href: https://omada.${SECRET_DOMAIN_SECONDARY}
           description: SDN Management
           icon: /icons/tplink.png
           widget:
@@ -159,7 +159,7 @@ data:
             site: HDC
             fields: ["connectedAp", "activeUser", "alerts"]
       - Omada (Haven):
-          href: https://omada.${SECRET_DOMAIN_INTERNAL}
+          href: https://omada.${SECRET_DOMAIN_SECONDARY}
           description: SDN Management
           icon: /icons/tplink.png
           widget:
@@ -170,11 +170,11 @@ data:
             site: School
             fields: ["connectedAp", "activeUser", "alerts"]
       - Pharos Control:
-          href: https://pharos.${SECRET_DOMAIN_INTERNAL}
+          href: https://pharos.${SECRET_DOMAIN_SECONDARY}
           description: CPE Management
           icon: /icons/tplink.png
       - FreePBX:
-          href: https://voip.${SECRET_DOMAIN_INTERNAL}
+          href: https://voip.${SECRET_DOMAIN_SECONDARY}
           description: VoIP Server
           icon: /icons/freepbx.png
 
@@ -208,15 +208,15 @@ data:
           description: Secrets Manager
           icon: /icons/vaultwarden.png
       - Agent DVR:
-          href: https://cctv.${SECRET_DOMAIN_INTERNAL}
+          href: https://cctv.${SECRET_DOMAIN_SECONDARY}
           description: Surveillance Monitoring
           icon: /icons/ispy.png
       - Firefly:
-          href: https://firefly.${SECRET_DOMAIN_INTERNAL}
+          href: https://firefly.${SECRET_DOMAIN_SECONDARY}
           description: Personal Finance
           icon: /icons/firefly.png
       - scanservjs:
-          href: https://scanner.${SECRET_DOMAIN_INTERNAL}
+          href: https://scanner.${SECRET_DOMAIN_SECONDARY}
           description: Scanner
           icon: /icons/scanservjs.png
 
@@ -230,7 +230,7 @@ data:
             url: http://jellyfin.media.svc.cluster.local:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
       - Radarr:
-          href: https://radarr.${SECRET_DOMAIN_INTERNAL}
+          href: https://radarr.${SECRET_DOMAIN_SECONDARY}
           description: Movie Media Manager
           icon: /icons/radarr.png
           widget:
@@ -238,7 +238,7 @@ data:
             url: http://radarr.media.svc.cluster.local:7878
             key: {{HOMEPAGE_VAR_RADARR_KEY}}
       - Sonarr:
-          href: https://sonarr.${SECRET_DOMAIN_INTERNAL}
+          href: https://sonarr.${SECRET_DOMAIN_SECONDARY}
           description: TV Media Manager
           icon: /icons/sonarr.png
           widget:
@@ -246,7 +246,7 @@ data:
             url: http://sonarr.media.svc.cluster.local:8989
             key: {{HOMEPAGE_VAR_SONARR_KEY}}
       - Prowlarr:
-          href: https://prowlarr.${SECRET_DOMAIN_INTERNAL}
+          href: https://prowlarr.${SECRET_DOMAIN_SECONDARY}
           description: Indexer Aggregator
           icon: /icons/prowlarr.png
           widget:
@@ -254,7 +254,7 @@ data:
             url: http://prowlarr.media.svc.cluster.local:9696
             key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
       - Bazarr:
-          href: https://bazarr.${SECRET_DOMAIN_INTERNAL}
+          href: https://bazarr.${SECRET_DOMAIN_SECONDARY}
           description: Subtitle Manager
           icon: /icons/bazarr.png
           widget:
@@ -262,20 +262,20 @@ data:
             url: http://bazarr.media.svc.cluster.local:6767
             key: {{HOMEPAGE_VAR_BAZARR_KEY}}
       - SABnzbd:
-          href: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
+          href: https://sabnzbd.${SECRET_DOMAIN_SECONDARY}
           description: Usenet Newsreader
           icon: /icons/sabnzbd.png
           widget:
             type: sabnzbd
-            url: https://sabnzbd.${SECRET_DOMAIN_INTERNAL}
+            url: https://sabnzbd.${SECRET_DOMAIN_SECONDARY}
             key: {{HOMEPAGE_VAR_SABNZBD_KEY}}
       - qBittorrent:
-          href: https://torrents.${SECRET_DOMAIN_INTERNAL}
+          href: https://torrents.${SECRET_DOMAIN_SECONDARY}
           description: BitTorrent Client
           icon: /icons/qbittorrent.png
           widget:
             type: qbittorrent
-            url: https://torrents.${SECRET_DOMAIN_INTERNAL}
+            url: https://torrents.${SECRET_DOMAIN_SECONDARY}
             username: {{HOMEPAGE_VAR_TORRENTS_USERNAME}}
             password: {{HOMEPAGE_VAR_TORRENTS_PASSWORD}}
   settings.yaml: |-

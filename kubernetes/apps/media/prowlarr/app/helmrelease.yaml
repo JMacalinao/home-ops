@@ -53,7 +53,7 @@ spec:
         enabled: false
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix

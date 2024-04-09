@@ -48,7 +48,7 @@ spec:
               tag: 4.2.3
             env:
               TZ: ${TIMEZONE}
-              HOST_WHITELIST_ENTRIES: &host "{{ .Release.Name }}.${SECRET_DOMAIN_INTERNAL}"
+              HOST_WHITELIST_ENTRIES: &host "{{ .Release.Name }}.${SECRET_DOMAIN_SECONDARY}"
     ingress:
       main:
         enabled: true

@@ -36,7 +36,7 @@ spec:
         annotations:
           hajimari.io/icon: mdi:kubernetes
         hosts:
-          - &host "kubernetes.${SECRET_DOMAIN_INTERNAL}"
+          - &host "kubernetes.${SECRET_DOMAIN_SECONDARY}"
     nginx:
       enabled: false
     cert-manager:

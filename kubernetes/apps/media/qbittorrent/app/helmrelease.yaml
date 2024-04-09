@@ -60,7 +60,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "torrents.${SECRET_DOMAIN_INTERNAL}"
+          - host: &host "torrents.${SECRET_DOMAIN_SECONDARY}"
             paths:
               - path: /
                 pathType: Prefix
