@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
-apiVersion: helm.toolkit.fluxcd.io/v2
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app grafana
@@ -101,6 +101,11 @@ spec:
             url: http://influxdb.monitoring:8086
             access: proxy
             database: speedtest
+          - name: Home Assistant
+            type: influxdb
+            url: http://influxdb.monitoring:8086
+            access: proxy
+            database: home_assistant
     downloadDashboardsImage:
       repository: curlimages/curl
       tag: 8.7.1
@@ -109,6 +114,7 @@ spec:
     envFromSecret: grafana-secret
     plugins:
       - dalvany-image-panel
+      - fetzerch-sunandmoon-datasource
     ingress:
       enabled: true
       ingressClassName: internal
