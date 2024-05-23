@@ -106,6 +106,10 @@ spec:
             url: http://influxdb.monitoring:8086
             access: proxy
             database: home_assistant
+          - name: Sun and Moon
+            type: fetzerch-sunandmoon-datasource
+            latitude: "14.56078940462268"
+            longitude: "121.04432272082893"
     downloadDashboardsImage:
       repository: curlimages/curl
       tag: 8.7.1
