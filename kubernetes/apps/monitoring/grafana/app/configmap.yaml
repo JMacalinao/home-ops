@@ -17247,7 +17247,7 @@ data:
                   {
                     "id": "custom.hideFrom",
                     "value": {
-                      "legend": true,
+                      "legend": false,
                       "tooltip": false,
                       "viz": false
                     }
@@ -17536,47 +17536,6 @@ data:
               "tags": []
             },
             {
-              "alias": "Clouds",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "weather.pirateweather",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "refId": "H",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "cloud_coverage"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            },
-            {
               "alias": "Humidity",
               "datasource": {
                 "type": "influxdb",
@@ -17607,6 +17566,47 @@ data:
                   {
                     "params": [
                       "humidity"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "alias": "Clouds",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "weather.pirateweather",
+              "orderByTime": "ASC",
+              "policy": "autogen",
+              "refId": "H",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "cloud_coverage"
                     ],
                     "type": "field"
                   },
@@ -20045,7 +20045,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -20429,7 +20430,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -20886,8 +20888,8 @@ data:
           {
             "current": {
               "selected": true,
-              "text": "Home",
-              "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
+              "text": "School",
+              "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
             },
             "hide": 0,
             "includeAll": false,
@@ -20896,12 +20898,12 @@ data:
             "name": "kv_entity_id",
             "options": [
               {
-                "selected": true,
+                "selected": false,
                 "text": "Home",
                 "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
               },
               {
-                "selected": false,
+                "selected": true,
                 "text": "School",
                 "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
               }
@@ -20914,8 +20916,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_load_power",
-              "value": "solax_swp7yqx4hu_load_power"
+              "text": "school_solar_total_load_power",
+              "value": "school_solar_total_load_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -20937,8 +20939,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_exported_power",
-              "value": "solax_swp7yqx4hu_exported_power"
+              "text": "school_inverter_1_total_grid_power",
+              "value": "school_inverter_1_total_grid_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -20960,8 +20962,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_total_pv_power",
-              "value": "solax_swp7yqx4hu_total_pv_power"
+              "text": "school_solar_total_pv_power",
+              "value": "school_solar_total_pv_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -21003,6 +21005,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 36,
+      "version": 37,
       "weekStart": ""
     }
