@@ -17120,11 +17120,10 @@ data:
                   },
                   {
                     "id": "min",
-                    "value": -101
+                    "value": 0
                   },
                   {
-                    "id": "max",
-                    "value": 101
+                    "id": "max"
                   },
                   {
                     "id": "custom.lineStyle",
@@ -20135,8 +20134,7 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -20710,6 +20708,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 39,
+      "version": 40,
       "weekStart": ""
     }
