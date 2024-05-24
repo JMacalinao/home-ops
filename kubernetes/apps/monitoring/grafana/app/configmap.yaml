@@ -17909,7 +17909,7 @@ data:
             "type": "influxdb",
             "uid": "P2A366ABB0CD47F51"
           },
-          "description": "Estimated Savings (Buy  = $currency$avg_buy_per_kwh / Sell  = $currency$avg_sell_per_kwh)\n\nNet metering disabled",
+          "description": "Estimated Costs and Savings (Buy  = $currency$avg_buy_per_kwh / Sell  = $currency$avg_sell_per_kwh)\n\nNet metering is disabled",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -18033,7 +18033,7 @@ data:
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "solar > grid"
+                  "options": "Solar > Grid"
                 },
                 "properties": [
                   {
@@ -18048,7 +18048,7 @@ data:
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "solar > home"
+                  "options": "Solar > Load"
                 },
                 "properties": [
                   {
@@ -18101,6 +18101,21 @@ data:
                     "value": "hidden"
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Grid > Load"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
               }
             ]
           },
@@ -18121,7 +18136,7 @@ data:
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "right",
+              "placement": "bottom",
               "showLegend": true
             },
             "orientation": "auto",
@@ -18149,27 +18164,39 @@ data:
               "resultFormat": "time_series"
             },
             {
-              "alias": "solar > home",
+              "alias": "Solar > Load",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT (integral(\"solar\") - integral(\"to_grid\")) * $avg_buy_per_kwh / 1000 / 3600 FROM\n  (SELECT \"value\" AS \"solar\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND $timeFilter),\n  (SELECT \"value\" AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter)",
+              "query": "SELECT sum(\"solar\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series"
             },
             {
-              "alias": "solar > grid",
+              "alias": "Solar > Grid",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT (-integral(\"to_grid\")) * $avg_sell_per_kwh / 1000 / 3600 FROM\n  (SELECT \"value\" AS \"solar\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND $timeFilter),\n  (SELECT \"value\" AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter)",
+              "query": "SELECT -sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "C",
+              "resultFormat": "time_series"
+            },
+            {
+              "alias": "Grid > Load",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "hide": false,
+              "query": "SELECT -sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "rawQuery": true,
+              "refId": "E",
               "resultFormat": "time_series"
             },
             {
@@ -18185,7 +18212,7 @@ data:
               "resultFormat": "time_series"
             }
           ],
-          "title": "Savings",
+          "title": "Costs and Savings",
           "type": "barchart"
         },
         {
@@ -18893,6 +18920,29 @@ data:
                     }
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Consumption Cost"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
               }
             ]
           },
@@ -18943,6 +18993,51 @@ data:
               "query": "SELECT sum(\"load\") FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "home"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "Consumption Cost",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"load\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "B",
               "resultFormat": "time_series",
               "select": [
                 [
@@ -19040,6 +19135,22 @@ data:
                     }
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Solar Energy Savings"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
               }
             ]
           },
@@ -19113,10 +19224,684 @@ data:
                 }
               ],
               "tz": "${tz:text}"
+            },
+            {
+              "alias": "Solar Energy Savings",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"solar\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "solar"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "solar",
+                  "operator": ">",
+                  "value": "0"
+                }
+              ],
+              "tz": "${tz:text}"
             }
           ],
           "timeFrom": "1M",
           "title": "Solar Energy",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "bars",
+                "fillOpacity": 100,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "From Grid"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "To Grid"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "From Grid Cost"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "To Grid Cost"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 36
+          },
+          "id": 27,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "alias": "From Grid",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "from_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "From Grid Cost",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "from_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "To Grid",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": true,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "to_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  },
+                  {
+                    "params": [
+                      "* -1"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "To Grid Cost",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": true,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "D",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "to_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  },
+                  {
+                    "params": [
+                      "* -1"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            }
+          ],
+          "timeFrom": "1M",
+          "title": "From Grid",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "bars",
+                "fillOpacity": 100,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "From Grid"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "To Grid"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "From Grid Cost"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "To Grid Cost"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 36
+          },
+          "id": 76,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "alias": "To Grid",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "to_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  },
+                  {
+                    "params": [
+                      "* -1"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "To Grid Cost",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "D",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "to_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  },
+                  {
+                    "params": [
+                      "* -1"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [],
+              "tz": "${tz:text}"
+            }
+          ],
+          "timeFrom": "1M",
+          "title": "To Grid",
           "type": "timeseries"
         },
         {
@@ -19179,21 +19964,6 @@ data:
               "unit": "watth"
             },
             "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Solar Energy"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "yellow",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
               {
                 "matcher": {
                   "id": "byName",
@@ -19262,14 +20032,41 @@ data:
                     "value": "line"
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/Cost|Savings/"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "prefix:P"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "transparent",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "custom.showPoints",
+                    "value": "never"
+                  }
+                ]
               }
             ]
           },
           "gridPos": {
             "h": 8,
-            "w": 12,
+            "w": 24,
             "x": 0,
-            "y": 36
+            "y": 44
           },
           "id": 30,
           "interval": "",
@@ -19277,7 +20074,7 @@ data:
             "legend": {
               "calcs": [],
               "displayMode": "list",
-              "placement": "right",
+              "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
@@ -19313,6 +20110,57 @@ data:
               "query": "SELECT sum(\"solar\") FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "solar"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "solar",
+                  "operator": ">",
+                  "value": "0"
+                }
+              ],
+              "tz": "${tz:text}"
+            },
+            {
+              "alias": "Solar Savings",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"solar\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "D",
               "resultFormat": "time_series",
               "select": [
                 [
@@ -19389,6 +20237,57 @@ data:
               "tz": "${tz:text}"
             },
             {
+              "alias": "Consumption Cost",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [
+                {
+                  "params": [
+                    "1d"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "0"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "kwh",
+              "query": "SELECT sum(\"load\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "rawQuery": true,
+              "refId": "E",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "home"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "sum"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "home",
+                  "operator": ">",
+                  "value": "0"
+                }
+              ],
+              "tz": "${tz:text}"
+            },
+            {
               "alias": "Grid",
               "datasource": {
                 "type": "influxdb",
@@ -19438,201 +20337,9 @@ data:
                 }
               ],
               "tz": "${tz:text}"
-            }
-          ],
-          "timeFrom": "12M",
-          "title": "Solar Energy Year",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "bars",
-                "fillOpacity": 100,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "watth"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "From Grid"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "red",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "To Grid"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "purple",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "http.From Grid"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "red",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "http.To Grid"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "purple",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 36
-          },
-          "id": 27,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": false
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "alias": "From Grid",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [
-                {
-                  "params": [
-                    "1d"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "0"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "http",
-              "orderByTime": "ASC",
-              "policy": "kwh",
-              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "from_grid"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "sum"
-                  }
-                ]
-              ],
-              "tags": [],
-              "tz": "${tz:text}"
             },
             {
-              "alias": "To Grid",
+              "alias": "Grid Cost",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
@@ -19655,36 +20362,36 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
-              "refId": "B",
+              "refId": "F",
               "resultFormat": "time_series",
               "select": [
                 [
                   {
                     "params": [
-                      "to_grid"
+                      "from_grid"
                     ],
                     "type": "field"
                   },
                   {
                     "params": [],
                     "type": "sum"
-                  },
-                  {
-                    "params": [
-                      "* -1"
-                    ],
-                    "type": "math"
                   }
                 ]
               ],
-              "tags": [],
+              "tags": [
+                {
+                  "key": "from_grid",
+                  "operator": ">",
+                  "value": "0"
+                }
+              ],
               "tz": "${tz:text}"
             }
           ],
-          "timeFrom": "1M",
-          "title": "Grid Usage",
+          "timeFrom": "12M",
+          "title": "Solar Energy Year",
           "type": "timeseries"
         },
         {
@@ -19693,7 +20400,7 @@ data:
             "h": 1,
             "w": 24,
             "x": 0,
-            "y": 44
+            "y": 52
           },
           "id": 57,
           "panels": [],
@@ -19892,7 +20599,7 @@ data:
             "h": 6,
             "w": 24,
             "x": 0,
-            "y": 45
+            "y": 53
           },
           "hideTimeOverride": false,
           "id": 59,
@@ -20134,7 +20841,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -20262,7 +20970,7 @@ data:
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 51
+            "y": 59
           },
           "hideTimeOverride": false,
           "id": 60,
@@ -20708,6 +21416,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 41,
+      "version": 42,
       "weekStart": ""
     }
