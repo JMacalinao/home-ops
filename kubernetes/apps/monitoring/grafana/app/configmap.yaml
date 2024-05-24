@@ -18877,13 +18877,13 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": [
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Home Usage"
+                  "options": "Consumption"
                 },
                 "properties": [
                   {
@@ -18919,7 +18919,7 @@ data:
           "pluginVersion": "10.4.1",
           "targets": [
             {
-              "alias": "Home Usage",
+              "alias": "Consumption",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
@@ -18941,7 +18941,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"load\") FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -19024,7 +19024,7 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": [
               {
@@ -19088,7 +19088,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND (\"value\" > 0) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"solar\") FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -19177,7 +19177,7 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": [
               {
@@ -19213,7 +19213,7 @@ data:
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Home"
+                  "options": "Consumption"
                 },
                 "properties": [
                   {
@@ -19311,7 +19311,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"solar\") FROM\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -19339,7 +19339,7 @@ data:
               "tz": "${tz:text}"
             },
             {
-              "alias": "Home",
+              "alias": "Consumption",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
@@ -19362,7 +19362,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"load\") FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -19413,7 +19413,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") * -1 / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -19502,7 +19502,7 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": [
               {
@@ -19611,7 +19611,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") * -1 / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -19656,7 +19656,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter GROUP BY time(1d) fill(0) tz('${tz:text}')",
+              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -20710,6 +20710,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 38,
+      "version": 39,
       "weekStart": ""
     }
