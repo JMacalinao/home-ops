@@ -16618,9 +16618,7 @@ data:
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
+            "text": {},
             "textMode": "auto",
             "wideLayout": true
           },
@@ -16717,9 +16715,7 @@ data:
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
+            "text": {},
             "textMode": "auto",
             "wideLayout": true
           },
@@ -16816,9 +16812,7 @@ data:
               "values": false
             },
             "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
+            "text": {},
             "textMode": "auto",
             "wideLayout": true
           },
@@ -16898,7 +16892,7 @@ data:
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": true,
+                "spanNulls": 3600000,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -17709,7 +17703,7 @@ data:
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": []
           },
@@ -17752,6 +17746,8 @@ data:
               "measurement": "W",
               "orderByTime": "ASC",
               "policy": "autogen",
+              "query": "SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_load_power$/ AND $timeFilter GROUP BY time(1h) fill(0)\n",
+              "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
               "select": [
@@ -17812,12 +17808,12 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "yellow",
+                    "color": "purple",
                     "value": null
                   }
                 ]
               },
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": []
           },
@@ -17825,223 +17821,6 @@ data:
             "h": 3,
             "w": 4,
             "x": 4,
-            "y": 18
-          },
-          "id": 5,
-          "interval": "",
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "sum"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [],
-              "measurement": "W",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "query": "SELECT integral(\"value\") / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND $timeFilter",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "integral"
-                  },
-                  {
-                    "params": [
-                      " / 1000 / 3600"
-                    ],
-                    "type": "math"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "entity_id::tag",
-                  "operator": "=~",
-                  "value": "/^$entity_pv_power$/"
-                }
-              ]
-            }
-          ],
-          "title": "Solar Energy",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 1,
-              "mappings": [
-                {
-                  "options": {
-                    "match": "null",
-                    "result": {
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "special"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "yellow",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 4,
-            "x": 8,
-            "y": 18
-          },
-          "id": 70,
-          "interval": "",
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "sum"
-              ],
-              "fields": "/^SolarPowered$/",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "alias": "SolarPowered",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [],
-              "hide": false,
-              "measurement": "http",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "query": "SELECT (integral(\"home\") - integral(\"from_grid\")) / integral(\"home\") FROM\n  (SELECT \"value\" AS \"home\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_load_power$/) AND $timeFilter),\n  (SELECT \"value\" * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND $timeFilter)",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "solar"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "integral"
-                  },
-                  {
-                    "params": [
-                      " / 1000 / 3600"
-                    ],
-                    "type": "math"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "title": "% Solar Powered",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 1,
-              "mappings": [
-                {
-                  "options": {
-                    "match": "null",
-                    "result": {
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "special"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "purple",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "kwatth"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 4,
-            "x": 12,
             "y": 18
           },
           "id": 7,
@@ -18073,12 +17852,19 @@ data:
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
               },
-              "groupBy": [],
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                }
+              ],
               "measurement": "W",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT integral(\"value\")  / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter",
-              "rawQuery": false,
+              "query": "SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
               "select": [
@@ -18118,527 +17904,6 @@ data:
           ],
           "title": "To Grid",
           "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 1,
-              "mappings": [
-                {
-                  "options": {
-                    "match": "null",
-                    "result": {
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "special"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "purple",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "kwatth"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 4,
-            "x": 16,
-            "y": 18
-          },
-          "id": 9,
-          "interval": "",
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "sum"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [],
-              "measurement": "W",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "query": "SELECT integral(\"value\") * -1 / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND $timeFilter",
-              "rawQuery": false,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "integral"
-                  },
-                  {
-                    "params": [
-                      "* -1 / 1000 / 3600"
-                    ],
-                    "type": "math"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "entity_id::tag",
-                  "operator": "=~",
-                  "value": "/^$entity_exported_power$/"
-                },
-                {
-                  "condition": "AND",
-                  "key": "value::field",
-                  "operator": "<=",
-                  "value": "0"
-                }
-              ]
-            }
-          ],
-          "title": "From Grid",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "description": "Net metering is disabled",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 1,
-              "mappings": [
-                {
-                  "options": {
-                    "match": "null",
-                    "result": {
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "special"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "purple",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "kwatth"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 4,
-            "x": 20,
-            "y": 18
-          },
-          "id": 69,
-          "interval": "",
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "none",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "sum"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "showPercentChange": false,
-            "text": {
-              "valueSize": 30
-            },
-            "textMode": "auto",
-            "wideLayout": true
-          },
-          "pluginVersion": "10.4.1",
-          "targets": [
-            {
-              "alias": "",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [],
-              "measurement": "http",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "query": "SELECT (integral(\"from_grid\") + integral(\"to_grid\")) / 1000 / 3600 FROM\n  (SELECT \"value\" * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" <= 0 AND $timeFilter),\n  (SELECT \"value\" AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter)",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "from_grid"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "integral"
-                  },
-                  {
-                    "params": [
-                      " / 1000 / 3600"
-                    ],
-                    "type": "math"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "title": "Net Grid Usage",
-          "type": "stat"
-        },
-        {
-          "alert": {
-            "alertRuleTags": {},
-            "conditions": [
-              {
-                "evaluator": {
-                  "params": [
-                    1
-                  ],
-                  "type": "lt"
-                },
-                "operator": {
-                  "type": "and"
-                },
-                "query": {
-                  "params": [
-                    "A",
-                    "5m",
-                    "now"
-                  ]
-                },
-                "reducer": {
-                  "params": [],
-                  "type": "avg"
-                },
-                "type": "query"
-              }
-            ],
-            "executionErrorState": "alerting",
-            "for": "5m",
-            "frequency": "1m",
-            "handler": 1,
-            "message": "Grid Offline",
-            "name": "Grid Status alert",
-            "noDataState": "keep_state",
-            "notifications": []
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P2A366ABB0CD47F51"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "fixedColor": "green",
-                "mode": "fixed"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 37,
-                "gradientMode": "opacity",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 3,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "off_grid"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "red",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": true,
-                      "tooltip": true,
-                      "viz": false
-                    }
-                  },
-                  {
-                    "id": "custom.axisPlacement",
-                    "value": "hidden"
-                  },
-                  {
-                    "id": "custom.drawStyle",
-                    "value": "bars"
-                  },
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 3
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Grid Status"
-                },
-                "properties": [
-                  {
-                    "id": "custom.axisPlacement",
-                    "value": "hidden"
-                  },
-                  {
-                    "id": "mappings",
-                    "value": [
-                      {
-                        "options": {
-                          "0": {
-                            "color": "red",
-                            "index": 1,
-                            "text": "Off Grid"
-                          },
-                          "1": {
-                            "color": "green",
-                            "index": 0,
-                            "text": "On Grid"
-                          },
-                          "-1": {
-                            "color": "yellow",
-                            "index": 2,
-                            "text": "Synchronizing"
-                          }
-                        },
-                        "type": "value"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "sync"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "yellow",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.drawStyle",
-                    "value": "bars"
-                  },
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 3
-                  },
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": true,
-                      "tooltip": true,
-                      "viz": false
-                    }
-                  },
-                  {
-                    "id": "custom.axisPlacement",
-                    "value": "hidden"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 8,
-            "x": 0,
-            "y": 21
-          },
-          "hideTimeOverride": false,
-          "id": 72,
-          "interval": "",
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": false
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "9.1.2",
-          "targets": [
-            {
-              "alias": "Grid Status",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "0"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "http",
-              "orderByTime": "ASC",
-              "policy": "raw",
-              "query": "SELECT min(\"grid_status\") FROM \"grid\".\"http\" WHERE $timeFilter GROUP BY time($__interval) fill(previous) tz('${tz:text}')",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "grid_status"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "sum"
-                  }
-                ]
-              ],
-              "tags": [],
-              "tz": "${tz:text}"
-            },
-            {
-              "alias": "sync",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "hide": false,
-              "query": "SELECT min(\"grid_status\") + 2 FROM \"grid\".\"http\" WHERE grid_status = -1 and $timeFilter GROUP BY time($__interval) fill(null) tz('${tz:text}')",
-              "rawQuery": true,
-              "refId": "B",
-              "resultFormat": "time_series"
-            },
-            {
-              "alias": "off_grid",
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P2A366ABB0CD47F51"
-              },
-              "hide": false,
-              "query": "SELECT min(\"grid_status\") + 1 FROM \"grid\".\"http\" WHERE grid_status = 0 and $timeFilter GROUP BY time($__interval) fill(null) tz('${tz:text}')",
-              "rawQuery": true,
-              "refId": "C",
-              "resultFormat": "time_series"
-            }
-          ],
-          "title": "Grid Status",
-          "type": "timeseries"
         },
         {
           "datasource": {
@@ -18841,10 +18106,10 @@ data:
             ]
           },
           "gridPos": {
-            "h": 6,
+            "h": 9,
             "w": 8,
             "x": 8,
-            "y": 21
+            "y": 18
           },
           "hideTimeOverride": true,
           "id": 45,
@@ -18942,7 +18207,7 @@ data:
                 }
               },
               "mappings": [],
-              "unit": "kwatth"
+              "unit": "watth"
             },
             "overrides": [
               {
@@ -18978,10 +18243,10 @@ data:
             ]
           },
           "gridPos": {
-            "h": 6,
+            "h": 9,
             "w": 8,
             "x": 16,
-            "y": 21
+            "y": 18
           },
           "id": 43,
           "interval": "",
@@ -18989,7 +18254,7 @@ data:
           "options": {
             "legend": {
               "displayMode": "table",
-              "placement": "right",
+              "placement": "bottom",
               "showLegend": true,
               "values": [
                 "value",
@@ -18999,7 +18264,7 @@ data:
             "pieType": "donut",
             "reduceOptions": {
               "calcs": [
-                "lastNotNull"
+                "sum"
               ],
               "fields": "",
               "values": false
@@ -19017,7 +18282,7 @@ data:
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
               },
-              "query": "SELECT (integral(\"solar\") - integral(\"to_grid\")) / 1000 / 3600 FROM\n  (SELECT \"value\" AS \"solar\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_pv_power$/) AND $timeFilter),\n  (SELECT \"value\" AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND \"value\" >= 0 AND $timeFilter)",
+              "query": "SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series"
@@ -19071,7 +18336,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT integral(\"value\") * -1 / 1000 / 3600 FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/) AND $timeFilter",
+              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -19101,6 +18366,446 @@ data:
           ],
           "title": "Self-Powered",
           "type": "piechart"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 0,
+            "y": 21
+          },
+          "id": 5,
+          "interval": "",
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "sum"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "valueSize": 30
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [],
+              "measurement": "W",
+              "orderByTime": "ASC",
+              "policy": "autogen",
+              "query": "SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "integral"
+                  },
+                  {
+                    "params": [
+                      " / 1000 / 3600"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "entity_id::tag",
+                  "operator": "=~",
+                  "value": "/^$entity_pv_power$/"
+                }
+              ]
+            }
+          ],
+          "title": "Solar Energy",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 21
+          },
+          "id": 9,
+          "interval": "",
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "sum"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "valueSize": 30
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [],
+              "hide": false,
+              "measurement": "W",
+              "orderByTime": "ASC",
+              "policy": "autogen",
+              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "integral"
+                  },
+                  {
+                    "params": [
+                      "* -1 / 1000 / 3600"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "entity_id::tag",
+                  "operator": "=~",
+                  "value": "/^$entity_exported_power$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "value::field",
+                  "operator": "<=",
+                  "value": "0"
+                }
+              ]
+            }
+          ],
+          "title": "From Grid",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 0,
+            "y": 24
+          },
+          "id": 70,
+          "interval": "",
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "sum"
+              ],
+              "fields": "/^SolarPowered$/",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "valueSize": 30
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "alias": "SolarPowered",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [],
+              "hide": false,
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "autogen",
+              "query": "SELECT (sum(\"load\") - sum(\"from_grid\")) / sum(\"load\") FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_load_power$/ AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "solar"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "integral"
+                  },
+                  {
+                    "params": [
+                      " / 1000 / 3600"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "title": "% Solar Powered",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P2A366ABB0CD47F51"
+          },
+          "description": "Net metering is disabled",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 1,
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "text": "N/A"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "watth"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 24
+          },
+          "id": 69,
+          "interval": "",
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "sum"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "text": {
+              "valueSize": 30
+            },
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "alias": "",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "groupBy": [],
+              "measurement": "http",
+              "orderByTime": "ASC",
+              "policy": "autogen",
+              "query": "SELECT sum(\"from_grid\") + sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "from_grid"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "integral"
+                  },
+                  {
+                    "params": [
+                      " / 1000 / 3600"
+                    ],
+                    "type": "math"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "title": "Net Grid Usage",
+          "type": "stat"
         },
         {
           "collapsed": false,
@@ -21005,6 +20710,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 37,
+      "version": 38,
       "weekStart": ""
     }
