@@ -18670,7 +18670,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT (sum(\"load\") - sum(\"from_grid\")) / sum(\"load\") FROM\n  (SELECT mean(\"value\") AS \"load\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_load_power$/ AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "query": "SELECT sum(\"solar\") / (sum(\"solar\") + sum(\"from_grid\")) FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -20708,6 +20708,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 40,
+      "version": 41,
       "weekStart": ""
     }
