@@ -20593,8 +20593,8 @@ data:
           {
             "current": {
               "selected": true,
-              "text": "School",
-              "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
+              "text": "Home",
+              "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
             },
             "hide": 0,
             "includeAll": false,
@@ -20603,12 +20603,12 @@ data:
             "name": "kv_entity_id",
             "options": [
               {
-                "selected": false,
+                "selected": true,
                 "text": "Home",
                 "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
               },
               {
-                "selected": true,
+                "selected": false,
                 "text": "School",
                 "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
               }
@@ -20621,8 +20621,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "school_solar_total_load_power",
-              "value": "school_solar_total_load_power"
+              "text": "solax_swp7yqx4hu_load_power",
+              "value": "solax_swp7yqx4hu_load_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -20644,8 +20644,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "school_inverter_1_total_grid_power",
-              "value": "school_inverter_1_total_grid_power"
+              "text": "solax_swp7yqx4hu_exported_power",
+              "value": "solax_swp7yqx4hu_exported_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -20667,8 +20667,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "school_solar_total_pv_power",
-              "value": "school_solar_total_pv_power"
+              "text": "solax_swp7yqx4hu_total_pv_power",
+              "value": "solax_swp7yqx4hu_total_pv_power"
             },
             "datasource": {
               "type": "influxdb",
