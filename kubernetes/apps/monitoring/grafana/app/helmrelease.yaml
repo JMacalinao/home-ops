@@ -114,7 +114,7 @@ spec:
               longitude: "121.04432272082893"
     downloadDashboardsImage:
       repository: curlimages/curl
-      tag: 8.7.1
+      tag: 8.8.0
       sha: ""
       pullPolicy: IfNotPresent
     envFromSecret: grafana-secret
