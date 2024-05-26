@@ -18079,7 +18079,7 @@ data:
               "measurement": "W",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT mean(\"value\") + 0 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -18305,43 +18305,44 @@ data:
           "pluginVersion": "10.4.1",
           "targets": [
             {
-              "alias": "",
+              "alias": "From Grid",
               "datasource": {
                 "type": "influxdb",
                 "uid": "P2A366ABB0CD47F51"
               },
-              "groupBy": [],
-              "measurement": "http",
-              "orderByTime": "ASC",
-              "policy": "autogen",
-              "query": "SELECT sum(\"from_grid\") + sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "hide": false,
+              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "from_grid"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "integral"
-                  },
-                  {
-                    "params": [
-                      " / 1000 / 3600"
-                    ],
-                    "type": "math"
-                  }
-                ]
-              ],
-              "tags": []
+              "resultFormat": "time_series"
+            },
+            {
+              "alias": "To Grid",
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P2A366ABB0CD47F51"
+              },
+              "hide": false,
+              "query": "SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series"
             }
           ],
           "title": "Net Grid Usage",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": false,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "sum"
+                ]
+              }
+            }
+          ],
           "type": "stat"
         },
         {
@@ -21185,7 +21186,7 @@ data:
           "type": "timeseries"
         }
       ],
-      "refresh": "30s",
+      "refresh": "",
       "schemaVersion": 39,
       "tags": [
         "solar"
@@ -21277,7 +21278,7 @@ data:
           },
           {
             "current": {
-              "selected": true,
+              "selected": false,
               "text": "Home",
               "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
             },
@@ -21395,6 +21396,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 43,
+      "version": 44,
       "weekStart": ""
     }
