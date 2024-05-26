@@ -34,7 +34,7 @@ spec:
           main:
             image:
               repository: fireflyiii/core
-              tag: version-6.1.15
+              tag: version-6.1.16
             env:
               - name: DB_DATABASE
                 valueFrom:
