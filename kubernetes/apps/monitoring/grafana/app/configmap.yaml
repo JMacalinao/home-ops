@@ -20052,7 +20052,9 @@ data:
           "interval": "",
           "options": {
             "legend": {
-              "calcs": [],
+              "calcs": [
+                "sum"
+              ],
               "displayMode": "list",
               "placement": "bottom",
               "showLegend": true
@@ -21278,7 +21280,7 @@ data:
           },
           {
             "current": {
-              "selected": false,
+              "selected": true,
               "text": "Home",
               "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
             },
@@ -21396,6 +21398,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 44,
+      "version": 45,
       "weekStart": ""
     }
