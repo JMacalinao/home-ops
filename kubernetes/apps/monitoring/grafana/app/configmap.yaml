@@ -17968,7 +17968,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT sum(\"solar\") / (sum(\"solar\") + sum(\"from_grid\")) FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
+              "query": "SELECT sum(\"solar\") / (sum(\"solar\") + sum(\"from_grid\")) FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)),\n  (SELECT mean(\"value\") AS \"solar\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_pv_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -18079,7 +18079,7 @@ data:
               "measurement": "W",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT mean(\"value\") + 0 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -18196,7 +18196,7 @@ data:
               "measurement": "W",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -18311,7 +18311,7 @@ data:
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series"
@@ -18323,7 +18323,7 @@ data:
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series"
@@ -18492,7 +18492,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "autogen",
-              "query": "SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0)",
+              "query": "SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0)",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -18801,7 +18801,7 @@ data:
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT -sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "query": "SELECT -sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series"
@@ -18813,7 +18813,7 @@ data:
                 "uid": "P2A366ABB0CD47F51"
               },
               "hide": false,
-              "query": "SELECT -sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))",
+              "query": "SELECT -sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))",
               "rawQuery": true,
               "refId": "E",
               "resultFormat": "time_series"
@@ -18889,7 +18889,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -19103,7 +19104,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -19323,7 +19325,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -19456,7 +19459,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -19501,7 +19504,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -19546,7 +19549,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -19597,7 +19600,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "D",
               "resultFormat": "time_series",
@@ -19678,7 +19681,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -19797,7 +19801,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"to_grid\") FROM\n  (SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "B",
               "resultFormat": "time_series",
@@ -19844,11 +19848,11 @@ data:
                   "type": "fill"
                 }
               ],
-              "hide": false,
+              "hide": true,
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") AS \"to_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field >= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"to_grid\") * $avg_sell_per_kwh / 1000 FROM\n  (SELECT (mean(\"value\") + abs(mean(\"value\"))) / 2 AS \"to_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "D",
               "resultFormat": "time_series",
@@ -19928,7 +19932,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -20288,7 +20293,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -20339,7 +20344,7 @@ data:
               "measurement": "http",
               "orderByTime": "ASC",
               "policy": "kwh",
-              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT mean(\"value\") * -1 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE (\"entity_id\"::tag =~ /^$entity_exported_power$/ AND \"value\"::field <= 0) AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
+              "query": "SELECT sum(\"from_grid\") * $avg_buy_per_kwh / 1000 FROM\n  (SELECT ((mean(\"value\") * -1) + abs(mean(\"value\"))) / 2 AS \"from_grid\" FROM \"autogen\".\"W\" WHERE \"entity_id\"::tag =~ /^$entity_exported_power$/ AND $timeFilter GROUP BY time(1h) fill(0))\nGROUP BY time(1d) tz('${tz:text}')",
               "rawQuery": true,
               "refId": "F",
               "resultFormat": "time_series",
@@ -20433,7 +20438,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -20817,7 +20823,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21273,9 +21280,9 @@ data:
           },
           {
             "current": {
-              "selected": false,
-              "text": "Home",
-              "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
+              "selected": true,
+              "text": "School",
+              "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
             },
             "hide": 0,
             "includeAll": false,
@@ -21284,12 +21291,12 @@ data:
             "name": "kv_entity_id",
             "options": [
               {
-                "selected": true,
+                "selected": false,
                 "text": "Home",
                 "value": "solax_swp7yqx4hu_load_power|solax_swp7yqx4hu_exported_power|solax_swp7yqx4hu_total_pv_power"
               },
               {
-                "selected": false,
+                "selected": true,
                 "text": "School",
                 "value": "school_solar_total_load_power|school_inverter_1_total_grid_power|school_solar_total_pv_power"
               }
@@ -21302,8 +21309,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_load_power",
-              "value": "solax_swp7yqx4hu_load_power"
+              "text": "school_solar_total_load_power",
+              "value": "school_solar_total_load_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -21325,8 +21332,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_exported_power",
-              "value": "solax_swp7yqx4hu_exported_power"
+              "text": "school_inverter_1_total_grid_power",
+              "value": "school_inverter_1_total_grid_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -21348,8 +21355,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "solax_swp7yqx4hu_total_pv_power",
-              "value": "solax_swp7yqx4hu_total_pv_power"
+              "text": "school_solar_total_pv_power",
+              "value": "school_solar_total_pv_power"
             },
             "datasource": {
               "type": "influxdb",
@@ -21391,6 +21398,6 @@ data:
       "timezone": "browser",
       "title": "Solar",
       "uid": "RSabAvRRzW",
-      "version": 46,
+      "version": 47,
       "weekStart": ""
     }
