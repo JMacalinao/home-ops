@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: mariadb
-              tag: 11.3.2
+              tag: 11.4.2
             envFrom:
               - secretRef:
                   name: firefly-iii-db-secret
