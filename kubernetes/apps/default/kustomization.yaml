@@ -6,6 +6,7 @@ resources:
   - ./bluebubbles/ks.yaml
   - ./cctv/ks.yaml
   - ./cloud/ks.yaml
+  - ./eramba-test/ks.yaml
   - ./firefly-iii/ks.yaml
   - ./home-assistant/ks.yaml
   - ./homepage/ks.yaml
