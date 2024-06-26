@@ -3,11 +3,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: &app eramba-test
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   ingressClassName: external
   rules:
   - host: &host eramba-test.${SECRET_DOMAIN}
-    https:
+    http:
       paths:
       - backend:
           service:
