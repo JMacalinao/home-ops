@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: &app eramba-test
 spec:
-  ingressClassName: internal
+  ingressClassName: external
   rules:
   - host: &host eramba-test.${SECRET_DOMAIN}
     http:
