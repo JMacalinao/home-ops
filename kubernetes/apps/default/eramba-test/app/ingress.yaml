@@ -5,6 +5,7 @@ metadata:
   name: &app eramba-test
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
 spec:
   ingressClassName: external
   rules:
