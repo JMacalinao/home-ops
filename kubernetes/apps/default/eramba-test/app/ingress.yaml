@@ -13,7 +13,7 @@ spec:
           service:
             name: *app
             port:
-              number: 80
+              number: 443
         pathType: ImplementationSpecific
   tls:
   - hosts:

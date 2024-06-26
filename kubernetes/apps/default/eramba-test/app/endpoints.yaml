@@ -7,7 +7,7 @@ subsets:
 - addresses:
   - ip: ${SECRET_ERAMBA_TEST_IP}
   ports:
-  - name: http
+  - name: https
     port: 8443
     protocol: TCP
   sessionAffinity: None
