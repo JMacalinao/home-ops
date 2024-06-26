@@ -7,7 +7,7 @@ spec:
   ingressClassName: external
   rules:
   - host: &host eramba-test.${SECRET_DOMAIN}
-    http:
+    https:
       paths:
       - backend:
           service:
