@@ -59,7 +59,7 @@ jobs:
           echo "${issue_number}"
 
       - name: Update Issue
-        uses: peter-evans/create-issue-from-file@74545bab6acd56724f00a2cd06ba737422a8a41b # v1
+        uses: peter-evans/create-issue-from-file@24452a72d85239eacf1468b0f1982a9f3fec4c94 # v5
         with:
           title: "${{ env.WORKFLOW_ISSUE_TITLE }}"
           issue-number: "${{ steps.find-issue.outputs.issue-number || '' }}"
