@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: mysql
-              tag: 8.4.0
+              tag: 9.0.0
             envFrom:
               - secretRef:
                   name: jmac-ph-mysql-secret
